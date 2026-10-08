@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ITIL Foundation (Version 5) practice exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF1F3;--surface:#FFFFFF;--ink:#172033;--muted:#5A6678;--line:#CBD3DB;
+  --accent:#2446C7;--accent-soft:#DCE3FA;--ok:#17785A;--ok-soft:#DDF1E9;--bad:#B8431C;--bad-soft:#F8E3DA;--flag:#9A6A0B;--flag-soft:#F6ECD4;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0F1522;--surface:#182033;--ink:#E6EBF2;--muted:#9AA6B8;--line:#2B3650;
+  --accent:#8EA6FF;--accent-soft:#25325C;--ok:#4FC79A;--ok-soft:#173A31;--bad:#F08A65;--bad-soft:#47261C;--flag:#E2B651;--flag-soft:#3E3219;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F1522;--surface:#182033;--ink:#E6EBF2;--muted:#9AA6B8;--line:#2B3650;
+  --accent:#8EA6FF;--accent-soft:#25325C;--ok:#4FC79A;--ok-soft:#173A31;--bad:#F08A65;--bad-soft:#47261C;--flag:#E2B651;--flag-soft:#3E3219;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:68rem;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em;line-height:1.15;margin:0}
+.hidden{display:none!important}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:.5rem;padding:.7rem 1.15rem;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--accent-soft)}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{border-color:var(--line);font-weight:400}
+
+/* home */
+.home h1{font-size:clamp(2.2rem,6vw,3.8rem);max-width:14ch;margin:1.5rem 0 1rem}
+.home .lede{max-width:56ch;color:var(--muted);margin:0 0 2rem}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem;margin-bottom:2.5rem}
+.mode{background:var(--surface);border:1.5px solid var(--line);border-radius:.75rem;padding:1.4rem;display:flex;flex-direction:column;gap:.6rem;text-align:left;cursor:pointer}
+.mode:hover{border-color:var(--ink)}
+.mode h2{font-size:1.35rem}
+.mode p{margin:0;color:var(--muted);font-size:.98rem}
+.mode .go{margin-top:auto;padding-top:.6rem;font-weight:700;color:var(--accent)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));border-top:1.5px solid var(--ink);margin-bottom:2rem}
+.facts div{padding:.9rem .2rem;border-bottom:1px solid var(--line)}
+.facts b{display:block;font-family:var(--display);font-size:1.6rem}
+.facts span{color:var(--muted);font-size:.92rem}
+.weights{width:100%;border-collapse:collapse;font-size:.96rem}
+.weights td{padding:.45rem .2rem;border-bottom:1px solid var(--line)}
+.weights td:last-child{text-align:right;color:var(--muted);white-space:nowrap}
+.best{color:var(--muted);font-size:.95rem;margin-top:1.5rem}
+.opts{display:flex;align-items:center;gap:.5rem;margin:-1rem 0 2rem;color:var(--muted);font-size:.95rem}
+
+/* quiz */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.topbar .title{font-family:var(--display);font-weight:700;font-size:1.1rem}
+.timer{font-family:var(--display);font-weight:700;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.timer.low{color:var(--bad)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 17rem;gap:1.5rem;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:1fr}}
+.qcard{background:var(--surface);border:1.5px solid var(--line);border-radius:.75rem;padding:1.5rem}
+.qmeta{display:flex;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.92rem;margin-bottom:.75rem}
+.qtext{font-size:1.25rem;font-weight:700;margin:0 0 1.25rem;max-width:62ch}
+.choices{display:flex;flex-direction:column;gap:.6rem}
+.choice{display:grid;grid-template-columns:2rem 1fr;gap:.75rem;align-items:start;text-align:left;background:transparent;border:1.5px solid var(--line);border-radius:.6rem;padding:.75rem .9rem;cursor:pointer}
+.choice:hover:not(:disabled){border-color:var(--ink)}
+.choice .letter{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.choice.sel{border-color:var(--accent);background:var(--accent-soft)}
+.choice.sel .letter{background:var(--accent);border-color:var(--accent);color:#fff}
+.choice.right{border-color:var(--ok);background:var(--ok-soft)}
+.choice.right .letter{background:var(--ok);border-color:var(--ok);color:#fff}
+.choice.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.choice.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+.choice:disabled{cursor:default}
+.feedback{margin-top:1.1rem;padding:1rem;border-radius:.6rem;border-left:4px solid var(--ok);background:var(--ok-soft)}
+.feedback.no{border-left-color:var(--bad);background:var(--bad-soft)}
+.feedback p{margin:.25rem 0 0}
+.nav{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.25rem;align-items:center}
+.nav .spacer{flex:1}
+.flagbtn[aria-pressed="true"]{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+
+/* answer sheet */
+.sheet{background:var(--surface);border:1.5px solid var(--line);border-radius:.75rem;padding:1.1rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 1rem)}
+.sheet h3{font-size:1rem;margin-bottom:.75rem}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.cell{aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);background:transparent;font-size:.82rem;font-weight:700;cursor:pointer;display:grid;place-items:center;padding:0;font-variant-numeric:tabular-nums;position:relative}
+.cell.done{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cell.cur{outline:2.5px solid var(--accent);outline-offset:2px}
+.cell.flag::after{content:"";position:absolute;top:-2px;right:-2px;width:.55rem;height:.55rem;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
+.cell.right{background:var(--ok);border-color:var(--ok);color:#fff}
+.cell.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.9rem;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.35rem;vertical-align:-1px;border:1.5px solid var(--line)}
+.sheet .btn{width:100%;margin-top:1rem}
+
+/* results */
+.score{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;margin:1rem 0 .5rem}
+.score .big{font-family:var(--display);font-size:clamp(3.5rem,12vw,6rem);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.verdict{font-family:var(--display);font-size:1.6rem;font-weight:700}
+.verdict.pass{color:var(--ok)}.verdict.fail{color:var(--bad)}
+.bars{margin:1.5rem 0 2rem;display:flex;flex-direction:column;gap:.7rem;max-width:40rem}
+.bar{display:grid;grid-template-columns:minmax(10rem,15rem) 1fr 3.5rem;gap:.75rem;align-items:center;font-size:.95rem}
+.track{height:.6rem;background:var(--line);border-radius:1rem;overflow:hidden}
+.fill{height:100%;background:var(--ink);border-radius:1rem}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+@media (max-width:560px){.bar{grid-template-columns:1fr 3.5rem}.bar .track{grid-column:1/-1;grid-row:2}}
+.review{display:flex;flex-direction:column;gap:1rem;margin-top:1rem}
+.ritem{background:var(--surface);border:1.5px solid var(--line);border-left:5px solid var(--ok);border-radius:.6rem;padding:1rem 1.2rem}
+.ritem.no{border-left-color:var(--bad)}
+.ritem h4{margin:0 0 .5rem;font-size:1.02rem}
+.ritem p{margin:.3rem 0;font-size:.97rem}
+.ritem .lbl{color:var(--muted)}
+.filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem}
+.filter button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.ok-t{color:var(--ok);font-weight:700}.bad-t{color:var(--bad);font-weight:700}
+.theme{border:1.5px solid var(--line);background:transparent;border-radius:2rem;padding:.35rem .8rem;cursor:pointer;font-size:.9rem}
+.note{color:var(--muted);font-size:.9rem;max-width:62ch;margin-top:2.5rem}
+@media (prefers-reduced-motion:no-preference){.choice,.cell,.mode{transition:border-color .15s,background-color .15s}}
+.modal{position:fixed;inset:0;background:rgba(10,15,25,.55);display:grid;place-items:center;padding:1.25rem;z-index:10}
+.modal.hidden{display:none}
+.mbox{background:var(--surface);color:var(--ink);border-radius:.75rem;padding:1.5rem;max-width:28rem;width:100%;border:1.5px solid var(--line)}
+.mbox p{margin:0;font-size:1.1rem;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="home" class="home">
+  <div class="topbar"><span class="title">ITIL practice</span><button class="theme" id="themeBtn" type="button">Toggle theme</button></div>
+  <h1>ITIL Foundation (Version 5) practice exam</h1>
+  <p class="lede">50 original questions weighted like the real syllabus. Take a timed 40-question mock exam, or work through all 50 with instant feedback.</p>
+  <div class="modes">
+    <button class="mode" data-mode="exam" type="button">
+      <h2>Mock exam</h2>
+      <p>40 questions drawn in the official category weights, with a 60-minute timer. Choose below whether to see answers as you go or only at the end.</p>
+      <span class="go">Start mock exam</span>
+    </button>
+    <button class="mode" data-mode="practice" type="button">
+      <h2>Practice</h2>
+      <p>All 50 questions, no timer. See the right answer and the explanation after each one.</p>
+      <span class="go">Start practice</span>
+    </button>
+    <button class="mode" data-mode="key" type="button">
+      <h2>Answer key</h2>
+      <p>Read every question with its correct answer and explanation, grouped by category.</p>
+      <span class="go">Open answer key</span>
+    </button>
+  </div>
+  <label class="opts" style="margin-bottom:.75rem"><input type="checkbox" id="instant"> Mock exam: show the correct answer and explanation right after each question</label>
+  <label class="opts"><input type="checkbox" id="extraTime"> Use 75 minutes (25% extra time for non-native speakers)</label>
+  <div class="facts">
+    <div><b>40</b><span>questions</span></div>
+    <div><b>60 min</b><span>time limit</span></div>
+    <div><b>26/40</b><span>to pass (65%)</span></div>
+    <div><b>0</b><span>penalty for wrong answers</span></div>
+  </div>
+  <h3 style="margin-bottom:.5rem">Syllabus weighting</h3>
+  <table class="weights"><tbody id="weightRows"></tbody></table>
+  <p class="best" id="best"></p>
+  <p class="note">These are independent practice questions written from the public syllabus, not real exam items. Use the official PeopleCert material as your final reference.</p>
+</section>
+
+<section id="quiz" class="hidden">
+  <div class="topbar">
+    <span class="title" id="quizTitle"></span>
+    <span class="timer" id="timer" aria-live="off"></span>
+    <button class="btn ghost" id="quitBtn" type="button">Exit</button>
+  </div>
+  <div class="layout">
+    <div class="qcard">
+      <div class="qmeta"><span id="qNum"></span><span id="qCat"></span></div>
+      <p class="qtext" id="qText"></p>
+      <div class="choices" id="choices" role="radiogroup" aria-labelledby="qText"></div>
+      <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+      <div class="nav">
+        <button class="btn ghost" id="prevBtn" type="button">Previous</button>
+        <button class="btn ghost flagbtn" id="flagBtn" type="button" aria-pressed="false">Flag for review</button>
+        <span class="spacer"></span>
+        <button class="btn primary" id="nextBtn" type="button">Next</button>
+      </div>
+    </div>
+    <aside class="sheet">
+      <h3>Answer sheet</h3>
+      <div class="grid" id="grid"></div>
+      <div class="legend" id="legend"></div>
+      <button class="btn primary" id="submitBtn" type="button">Submit exam</button>
+    </aside>
+  </div>
+</section>
+
+<section id="results" class="hidden">
+  <div class="topbar"><span class="title" id="resTitle">Results</span><button class="btn ghost" id="homeBtn" type="button">Back to start</button></div>
+  <div class="score"><span class="big" id="resScore"></span><span class="verdict" id="resVerdict"></span></div>
+  <p id="resSub" style="color:var(--muted);margin:0"></p>
+  <div class="bars" id="bars"></div>
+  <div class="nav"><button class="btn primary" id="retryBtn" type="button">Try another mock exam</button></div>
+  <h2 style="margin-top:2.5rem;font-size:1.5rem" id="reviewHead">Review your answers</h2>
+  <div class="filter" id="filter"></div>
+  <div class="review" id="review"></div>
+</section>
+
+</div>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalMsg">
+  <div class="mbox"><p id="modalMsg"></p><div class="nav"><button class="btn ghost" id="modalCancel" type="button">Keep working</button><span class="spacer"></span><button class="btn primary" id="modalOk" type="button">OK</button></div></div>
+</div>
+<script>
+const QUESTIONS = [
+{c:"T",q:"How does ITIL define 'value'?",o:["The perceived benefits, usefulness and importance of something","The financial gain from a service","A tangible result of an activity","The agreed quality of a service"],a:0,e:"Value is 'the perceived benefits, usefulness and importance of something'. It is subjective and depends on the stakeholder's perception."},
+{c:"T",q:"What is an 'outcome'?",o:["A tangible or intangible deliverable of an activity","A result for a stakeholder enabled by one or more outputs","A configuration of an organization's resources","An amount of money spent on an activity"],a:1,e:"An outcome is the result for the stakeholder (e.g. 'staff can work from home'); an output is what an activity delivers (e.g. a VPN account)."},
+{c:"T",q:"What is an 'output'?",o:["A result for a stakeholder","A tangible or intangible deliverable of an activity","The perceived benefit of something","A possible event that could cause harm"],a:1,e:"Output = 'a tangible or intangible deliverable of an activity'."},
+{c:"T",q:"What does 'utility' describe?",o:["Assurance that a service will meet agreed requirements","The functionality offered by a product or service to meet a particular need","The cost of running a service","The time a service is available"],a:1,e:"Utility is 'fit for purpose' — what the service does. Warranty is 'fit for use' — how well it does it."},
+{c:"T",q:"What does 'warranty' describe?",o:["Assurance that a product or service will meet agreed requirements","The functionality of a service","A document describing service offerings","A supplier contract"],a:0,e:"Warranty typically covers availability, capacity, security and continuity — whether the service is 'fit for use'."},
+{c:"T",q:"Which definition best describes a 'service'?",o:["A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks","A set of interrelated activities that transform inputs into outputs","A contract between a provider and a consumer","A physical good delivered to a customer"],a:0,e:"A service removes certain costs and risks from the customer and enables value co-creation. A set of activities transforming inputs into outputs is a process."},
+{c:"T",q:"Which role authorizes the budget for service consumption?",o:["User","Customer","Sponsor","Supplier"],a:2,e:"The sponsor authorizes the budget. The customer defines requirements and takes responsibility for outcomes. The user uses the service."},
+{c:"T",q:"Which role defines the requirements for a service and takes responsibility for the outcomes of service consumption?",o:["User","Customer","Sponsor","Service desk"],a:1,e:"The customer defines requirements and is responsible for the outcomes of service consumption."},
+{c:"T",q:"What can a service offering include?",o:["Software only","Goods, access to resources, and service actions","Staff resources only","Service level agreements only"],a:1,e:"A service offering is a formal description of one or more services for a target consumer group and may include goods, access to resources and service actions."},
+{c:"T",q:"What is a 'service relationship'?",o:["A legal contract with a supplier","A cooperation between a service provider and a service consumer","A process for handling complaints","A team's internal reporting line"],a:1,e:"A service relationship is a cooperation between provider and consumer, including service provision, service consumption and service relationship management."},
+{c:"T",q:"How does ITIL define 'risk'?",o:["A possible event that could cause harm or loss, or make it more difficult to achieve objectives","An unplanned interruption to a service","The cause of one or more incidents","An amount of money spent on a resource"],a:0,e:"Risk can also be seen as uncertainty of outcome — positive or negative. An unplanned interruption is an incident; the cause of incidents is a problem."},
+{c:"T",q:"What is 'cost' in ITIL?",o:["The perceived value of something","The amount of money spent on a specific activity or resource","The price paid by the customer","A risk that has materialized"],a:1,e:"Cost is 'the amount of money spent on a specific activity or resource'. A service can both remove and impose costs on the consumer."},
+{c:"T",q:"What is a 'product' in ITIL?",o:["A configuration of an organization's resources designed to offer value for a consumer","A physical good","A contract","A process"],a:0,e:"Products are often complex and not fully visible to the consumer; services are based on one or more products."},
+{c:"T",q:"Who creates value according to ITIL?",o:["The service provider alone","The customer alone","Providers and consumers together, through co-creation","Suppliers"],a:2,e:"Value is co-created through active collaboration between providers, consumers and other stakeholders."},
+{c:"T",q:"What is an 'organization' in ITIL?",o:["A legal entity with a registration number","A person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives","An IT department","A project team"],a:1,e:"An organization can be anything from a single person to a large conglomerate."},
+{c:"D",q:"Which of the following is NOT one of the four dimensions?",o:["Organizations and people","Information and technology","Governance and compliance","Partners and suppliers"],a:2,e:"The four dimensions are Organizations and people, Information and technology, Partners and suppliers, and Value streams and processes."},
+{c:"D",q:"An organization is deciding what data to store and which tools to use. Which dimension does this belong to?",o:["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],a:1,e:"Information and technology covers the information, knowledge and technologies used to manage and deliver services."},
+{c:"D",q:"Which dimension covers an organization's relationships with other organizations involved in design, delivery and support?",o:["Partners and suppliers","Organizations and people","Value streams and processes","Information and technology"],a:0,e:"Partners and suppliers covers contracts, partnerships and sourcing strategy."},
+{c:"D",q:"What is a 'process'?",o:["A set of interrelated or interacting activities that transform inputs into outputs","A series of steps from demand to value","A set of organizational resources","An agreement between two parties"],a:0,e:"Processes belong to the Value streams and processes dimension. A series of steps from demand to value describes a value stream."},
+{c:"D",q:"Which model is used to describe the external factors that affect the four dimensions?",o:["SWOT","PESTLE","RACI","Kanban"],a:1,e:"PESTLE: Political, Economic, Social, Technological, Legal and Environmental."},
+{c:"L",q:"Which of the following is NOT one of the eight activities in the ITIL Product and Service Lifecycle?",o:["Discover","Acquire","Retire","Transition"],a:2,e:"The eight activities are Discover, Design, Acquire, Build, Transition, Operate, Deliver and Support."},
+{c:"L",q:"How should the lifecycle activities be applied?",o:["Strictly sequentially, once","Iteratively and flexibly, often in parallel and with feedback","Only in the order the customer decides","Only for new products"],a:1,e:"The lifecycle is iterative — activities can run concurrently, and feedback can lead back to earlier activities."},
+{c:"L",q:"Which lifecycle activity is about identifying needs, opportunities and ideas for new or changed products and services?",o:["Discover","Build","Operate","Support"],a:0,e:"Discover explores needs and opportunities before design begins."},
+{c:"L",q:"Which activity is about obtaining components, resources or services from external suppliers?",o:["Design","Acquire","Deliver","Transition"],a:1,e:"Acquire covers obtaining what the organization does not build itself."},
+{c:"L",q:"Which activity moves new or changed products and services into use?",o:["Build","Transition","Discover","Acquire"],a:1,e:"Transition ensures that new or changed components are brought into live use in a controlled way."},
+{c:"L",q:"Which activity focuses on helping users with issues, questions and requests?",o:["Operate","Design","Support","Build"],a:2,e:"Support assists users so they can get value from products and services."},
+{c:"V",q:"Which of the following is NOT a component of the ITIL Value System?",o:["Guiding principles","Governance","Service level agreements","Continual improvement"],a:2,e:"The components are guiding principles, governance, the value chain, management practices and continual improvement."},
+{c:"V",q:"What is the purpose of the ITIL Value System?",o:["To ensure the organization continually co-creates value with all stakeholders","To define service level agreements","To replace project management","To reduce the number of suppliers"],a:0,e:"The Value System describes how all components and activities work together to enable value creation."},
+{c:"V",q:"Before building a new tool, a team analyses what already exists and could be reused. Which guiding principle is this?",o:["Focus on value","Start where you are","Optimize and automate","Keep it simple and practical"],a:1,e:"Start where you are: don't start from scratch; observe and reuse what exists."},
+{c:"V",q:"Which principle states that everything the organization does should link, directly or indirectly, to value for stakeholders?",o:["Focus on value","Think and work holistically","Collaborate and promote visibility","Start where you are"],a:0,e:"Focus on value requires understanding who receives the value and what value means to them."},
+{c:"V",q:"A large improvement initiative is split into smaller, manageable pieces with regular evaluation. Which principle is this?",o:["Think and work holistically","Progress iteratively with feedback","Optimize and automate","Focus on value"],a:1,e:"Small steps with feedback loops allow the course to be adjusted along the way."},
+{c:"V",q:"Which principle is about involving the right stakeholders and making work and its results visible?",o:["Collaborate and promote visibility","Keep it simple and practical","Start where you are","Optimize and automate"],a:0,e:"Visibility leads to better decisions and builds trust and buy-in."},
+{c:"V",q:"Which principle emphasizes that no product, service or element stands alone?",o:["Focus on value","Think and work holistically","Progress iteratively with feedback","Keep it simple and practical"],a:1,e:"Results suffer unless the organization works on the whole — all four dimensions must be considered."},
+{c:"V",q:"A team removes steps from a process because they add no value. Which principle is this?",o:["Optimize and automate","Keep it simple and practical","Collaborate and promote visibility","Start where you are"],a:1,e:"Keep it simple and practical: use the minimum number of steps needed and remove anything that doesn't create value."},
+{c:"V",q:"What does the principle 'Optimize and automate' recommend?",o:["Automate everything as quickly as possible","Optimize first, then automate, and use people where they add the most value","Avoid automation","Let suppliers handle automation"],a:1,e:"Automating a poor process just gives you a faster poor process — optimize first."},
+{c:"V",q:"What characterizes the guiding principles?",o:["They apply only to the IT department","They are recommendations that can guide an organization in all circumstances","They are mandatory rules","They must be applied one at a time"],a:1,e:"The principles are universal and enduring, and should usually be applied in combination."},
+{c:"V",q:"What is governance?",o:["The means by which an organization is directed and controlled","Day-to-day service operation","A fixed process for changes","Supplier management"],a:0,e:"Governance sets direction and checks that the organization is moving towards its objectives."},
+{c:"V",q:"At which level does continual improvement apply?",o:["Strategic only","Operational only","At all levels of the organization","In IT only"],a:2,e:"Continual improvement is everyone's responsibility and happens at strategic, tactical and operational levels."},
+{c:"V",q:"What is the first step of the continual improvement model?",o:["Where are we now?","What is the vision?","Take action","How do we get there?"],a:1,e:"The model: What is the vision? → Where are we now? → Where do we want to be? → How do we get there? → Take action → Did we get there? → How do we keep the momentum going?"},
+{c:"V",q:"Which step of the continual improvement model involves a baseline assessment?",o:["What is the vision?","Where are we now?","Did we get there?","Take action"],a:1,e:"'Where are we now?' objectively maps the current state — a baseline."},
+{c:"V",q:"What is a 'management practice'?",o:["A set of organizational resources designed for performing work or accomplishing an objective","A single process","A department","A software tool"],a:0,e:"Practices span all four dimensions, not just processes."},
+{c:"V",q:"What are the input and output of the ITIL Value System?",o:["Input: requirements; output: SLA","Input: opportunity and demand; output: value","Input: incidents; output: resolutions","Input: budget; output: products"],a:1,e:"Opportunity and demand enter the system; the result is value for the organization, its customers and other stakeholders."},
+{c:"V",q:"What is the purpose of incident management?",o:["To find the root cause of errors","To minimize the negative impact of incidents by restoring normal service operation as quickly as possible","To authorize changes","To handle service requests"],a:1,e:"Root cause analysis belongs to problem management."},
+{c:"V",q:"What is a 'change'?",o:["The addition, modification or removal of anything that could have a direct or indirect effect on services","An unplanned interruption","A request from a user","A new supplier contract"],a:0,e:"This is the official definition of a change."},
+{c:"V",q:"What is a 'problem'?",o:["An unplanned interruption to a service","A cause, or potential cause, of one or more incidents","A customer complaint","A failed change"],a:1,e:"Incident = the interruption; problem = the cause behind it."},
+{c:"V",q:"A user asks to have their password reset. What is this?",o:["Incident","Problem","Service request","Normal change"],a:2,e:"A service request initiates a pre-agreed service action that is a normal part of service delivery."},
+{c:"S",q:"What is a 'value stream'?",o:["A series of steps an organization undertakes to create and deliver products and services to consumers","A financial budget","A list of services","A set of KPIs"],a:0,e:"Value streams show how work moves from demand to value."},
+{c:"S",q:"What is a typical purpose of value stream mapping?",o:["To identify waste, bottlenecks and improvement opportunities in the flow","To draft contracts","To allocate budgets","To recruit staff"],a:0,e:"Mapping makes flow, waiting time and non-value-adding steps visible."},
+{c:"A",q:"What distinguishes agentic AI from generative AI?",o:["Agentic AI can independently plan and take actions to achieve a goal","Agentic AI can only generate text","Agentic AI requires no governance","There is no difference"],a:0,e:"Generative AI creates content; agentic AI acts autonomously — which makes governance even more important."},
+{c:"F",q:"How does ITIL relate to DevOps and PRINCE2?",o:["ITIL replaces them","They conflict and should not be combined","They complement each other: ITIL provides product and service management guidance, while DevOps and PRINCE2 contribute delivery and project methods","PRINCE2 replaces ITIL"],a:2,e:"ITIL Version 5 emphasizes that frameworks can be combined and complement each other."}
+];
+const CATS={T:{n:"Key terms and definitions",w:12},D:{n:"Four dimensions",w:4},L:{n:"Product and service lifecycle",w:4},V:{n:"ITIL Value System",w:16},S:{n:"Value streams",w:2},A:{n:"ITIL and AI",w:1},F:{n:"ITIL and other frameworks",w:1}};
+const PCT={T:"30%",D:"10%",L:"10%",V:"40%",S:"5%",A:"2.5%",F:"2.5%"};
+const L="ABCD";
+const $=id=>document.getElementById(id);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let S=null,tick=null;
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function show(id){["home","quiz","results"].forEach(s=>$(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0)}
+
+// theme
+(function(){const ins=store.get("itil5-instant");$("instant").checked=ins===null?true:ins==="1";
+$("instant").onchange=()=>store.set("itil5-instant",$("instant").checked?"1":"0")})();
+(function(){const t=store.get("itil5-theme");if(t)document.documentElement.dataset.theme=t;
+$("themeBtn").onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=nx;store.set("itil5-theme",nx)}})();
+
+// home
+$("weightRows").innerHTML=Object.entries(CATS).map(([k,c])=>`<tr><td>${c.n}</td><td>${PCT[k]} · ${c.w} ${c.w===1?"mark":"marks"}</td></tr>`).join("");
+function renderBest(){const b=store.get("itil5-best");$("best").textContent=b?`Your best mock exam score in this browser: ${b}/40`:""}
+renderBest();
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>start(b.dataset.mode));
+
+function start(mode){
+  if(mode==="key"){return showKey()}
+  let idx;
+  if(mode==="exam"){
+    idx=[];Object.entries(CATS).forEach(([k,c])=>{const pool=QUESTIONS.map((q,i)=>i).filter(i=>QUESTIONS[i].c===k);idx.push(...shuffle(pool).slice(0,c.w))});
+    idx=shuffle(idx);
+  } else idx=shuffle(QUESTIONS.map((q,i)=>i));
+  S={mode,items:idx.map(qi=>({qi,ord:shuffle([0,1,2,3])})),ans:Array(idx.length).fill(null),flag:Array(idx.length).fill(false),cur:0,
+     instant:mode==="practice"||$("instant").checked,end:mode==="exam"?Date.now()+($("extraTime").checked?75:60)*60000:null,done:false};
+  $("quizTitle").textContent=mode==="exam"?"Mock exam":"Practice";
+  $("submitBtn").textContent=mode==="exam"?"Submit exam":"Finish and see results";
+  $("legend").innerHTML=!S.instant
+    ?'<span><i style="background:var(--ink);border-color:var(--ink)"></i>Answered</span><span><i style="background:var(--flag);border-color:var(--flag)"></i>Flagged</span>'
+    :'<span><i style="background:var(--ok);border-color:var(--ok)"></i>Correct</span><span><i style="background:var(--bad);border-color:var(--bad)"></i>Wrong</span>';
+  $("flagBtn").classList.toggle("hidden",mode!=="exam");
+  $("timer").classList.toggle("hidden",mode!=="exam");
+  buildGrid();render();show("quiz");
+  clearInterval(tick);if(mode==="exam"){updTimer();tick=setInterval(updTimer,1000)}
+}
+
+function updTimer(){
+  const ms=Math.max(0,S.end-Date.now());const m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);
+  $("timer").textContent=`${m}:${String(s).padStart(2,"0")} left`;
+  $("timer").classList.toggle("low",ms<5*60000);
+  if(ms<=0){clearInterval(tick);finish(true)}
+}
+
+function buildGrid(){
+  $("grid").innerHTML=S.items.map((_,i)=>`<button class="cell" type="button" data-i="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join("");
+  $("grid").querySelectorAll(".cell").forEach(c=>c.onclick=()=>{S.cur=+c.dataset.i;render()});
+}
+function paintGrid(){
+  $("grid").querySelectorAll(".cell").forEach((c,i)=>{
+    const a=S.ans[i],it=S.items[i];c.className="cell";
+    if(S.flag[i])c.classList.add("flag");
+    if(!S.instant){if(a!==null)c.classList.add("done")}
+    else if(a!==null)c.classList.add(it.ord[a]===QUESTIONS[it.qi].a?"right":"wrong");
+    if(i===S.cur)c.classList.add("cur");
+  });
+}
+
+function render(){
+  const i=S.cur,it=S.items[i],q=QUESTIONS[it.qi],a=S.ans[i];
+  $("qNum").textContent=`Question ${i+1} of ${S.items.length}`;
+  $("qCat").textContent=CATS[q.c].n;
+  $("qText").textContent=q.q;
+  const reveal=S.instant&&a!==null;
+  $("choices").innerHTML=it.ord.map((oi,d)=>{
+    let cls="choice";
+    if(reveal){if(oi===q.a)cls+=" right";else if(d===a)cls+=" wrong"}
+    else if(d===a)cls+=" sel";
+    return `<button class="${cls}" type="button" role="radio" aria-checked="${d===a}" data-d="${d}" ${reveal?"disabled":""}><span class="letter">${L[d]}</span><span>${esc(q.o[oi])}</span></button>`}).join("");
+  $("choices").querySelectorAll(".choice").forEach(b=>b.onclick=()=>pick(+b.dataset.d));
+  const fb=$("feedback");
+  if(reveal){const ok=it.ord[a]===q.a;fb.className="feedback"+(ok?"":" no");
+    fb.innerHTML=`<strong>${ok?"Correct.":"Not quite."}</strong> ${ok?"":`The answer is ${L[it.ord.indexOf(q.a)]}: ${esc(q.o[q.a])}.`}<p>${esc(q.e)}</p>`}
+  else fb.className="feedback hidden";
+  $("prevBtn").disabled=i===0;
+  $("nextBtn").textContent=i===S.items.length-1?(S.mode==="exam"?"Review and submit":"Finish"):"Next";
+  $("flagBtn").setAttribute("aria-pressed",S.flag[i]);
+  $("flagBtn").textContent=S.flag[i]?"Flagged":"Flag for review";
+  paintGrid();
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function pick(d){if(S.instant&&S.ans[S.cur]!==null)return;S.ans[S.cur]=d;render()}
+
+$("prevBtn").onclick=()=>{if(S.cur>0){S.cur--;render()}};
+$("nextBtn").onclick=()=>{if(S.cur<S.items.length-1){S.cur++;render();$("qText").scrollIntoView({block:"nearest"})}else confirmFinish()};
+$("flagBtn").onclick=()=>{S.flag[S.cur]=!S.flag[S.cur];render()};
+$("submitBtn").onclick=confirmFinish;
+$("quitBtn").onclick=()=>ask("Exit this attempt? Your answers will be lost.","Exit",()=>{clearInterval(tick);show("home")});
+function confirmFinish(){
+  const un=S.ans.filter(a=>a===null).length,fl=S.flag.filter(Boolean).length;
+  let msg=S.mode==="exam"?"Submit your exam?":"Finish and see your results?";
+  if(un)msg+=` ${un} question${un>1?"s are":" is"} unanswered.`;
+  if(S.mode==="exam"&&fl)msg+=` ${fl} question${fl>1?"s are":" is"} flagged.`;
+  ask(msg,S.mode==="exam"?"Submit exam":"See results",()=>finish(false));
+}
+document.addEventListener("keydown",e=>{
+  if($("quiz").classList.contains("hidden")||!$("modal").classList.contains("hidden")||e.metaKey||e.ctrlKey||e.altKey)return;
+  const k=e.key.toLowerCase();const m={a:0,b:1,c:2,d:3,"1":0,"2":1,"3":2,"4":3}[k];
+  if(m!==undefined&&!(e.target.tagName==="INPUT")){pick(m)}
+  else if(e.key==="ArrowRight"){$("nextBtn").click()}else if(e.key==="ArrowLeft"){$("prevBtn").click()}
+});
+
+function finish(timeout){
+  clearInterval(tick);S.done=true;
+  const n=S.items.length;let score=0;const by={};
+  S.items.forEach((it,i)=>{const q=QUESTIONS[it.qi];by[q.c]=by[q.c]||{t:0,ok:0};by[q.c].t++;
+    if(S.ans[i]!==null&&it.ord[S.ans[i]]===q.a){score++;by[q.c].ok++}});
+  const pass=score/n>=0.65;
+  $("resTitle").textContent=S.mode==="exam"?"Mock exam results":"Practice results";
+  $("resScore").textContent=`${score}/${n}`;
+  $("resVerdict").textContent=pass?"Pass":"Not yet a pass";
+  $("resVerdict").className="verdict "+(pass?"pass":"fail");
+  const need=Math.ceil(n*0.65);
+  $("resSub").textContent=(timeout?"Time ran out. ":"")+`${Math.round(score/n*100)}% — the pass mark is 65% (${need}/${n}). Aim for about 80% in practice before booking the real exam.`;
+  $("bars").innerHTML=Object.keys(CATS).filter(k=>by[k]).map(k=>{const b=by[k];const p=b.ok/b.t*100;
+    return `<div class="bar"><span>${CATS[k].n}</span><div class="track"><div class="fill" style="width:${p}%;background:${p>=65?"var(--ok)":"var(--bad)"}"></div></div><span>${b.ok}/${b.t}</span></div>`}).join("");
+  $("retryBtn").textContent=S.mode==="exam"?"Try another mock exam":"Practice again";
+  $("retryBtn").onclick=()=>start(S.mode);
+  if(S.mode==="exam"){const b=+(store.get("itil5-best")||0);if(score>b)store.set("itil5-best",score);renderBest()}
+  $("reviewHead").textContent="Review your answers";
+  buildReview("all");show("results");
+}
+
+function buildReview(f){
+  $("filter").classList.remove("hidden");$("bars").classList.remove("hidden");$("retryBtn").parentElement.classList.remove("hidden");
+  const opts=[["all","All questions"],["wrong","Only wrong or unanswered"]];
+  $("filter").innerHTML=opts.map(([k,t])=>`<button class="btn ghost" type="button" data-f="${k}" aria-pressed="${k===f}">${t}</button>`).join("");
+  $("filter").querySelectorAll("button").forEach(b=>b.onclick=()=>buildReview(b.dataset.f));
+  const rows=S.items.map((it,i)=>{const q=QUESTIONS[it.qi],a=S.ans[i];const ok=a!==null&&it.ord[a]===q.a;
+    if(f==="wrong"&&ok)return"";
+    const yours=a===null?'<span class="bad-t">Not answered</span>':`<span class="${ok?"ok-t":"bad-t"}">${esc(q.o[it.ord[a]])}</span>`;
+    return `<article class="ritem${ok?"":" no"}"><h4>${i+1}. ${esc(q.q)}</h4>
+      <p><span class="lbl">Your answer:</span> ${yours}</p>
+      ${ok?"":`<p><span class="lbl">Correct answer:</span> <span class="ok-t">${esc(q.o[q.a])}</span></p>`}
+      <p>${esc(q.e)}</p></article>`}).join("");
+  $("review").innerHTML=rows||'<p>No wrong answers to review. Switch to "All questions" to read every explanation.</p>';
+}
+
+function showKey(){
+  $("resTitle").textContent="Answer key";$("resScore").textContent="";$("resVerdict").textContent="";
+  $("resSub").textContent="All 50 questions with the correct answer and explanation, grouped by syllabus category.";
+  $("bars").classList.add("hidden");$("retryBtn").parentElement.classList.add("hidden");$("filter").classList.add("hidden");
+  $("reviewHead").textContent="";
+  let n=0;
+  $("review").innerHTML=Object.entries(CATS).map(([k,c])=>{
+    const qs=QUESTIONS.filter(q=>q.c===k);
+    return `<h3 style="margin-top:1.5rem;font-size:1.25rem">${c.n} <span style="color:var(--muted);font-weight:500;font-size:1rem">(${PCT[k]})</span></h3>`+
+      qs.map(q=>{n++;return `<article class="ritem"><h4>${n}. ${esc(q.q)}</h4>
+        ${q.o.map((o,i)=>`<p class="${i===q.a?"ok-t":""}">${L[i]}. ${esc(o)}${i===q.a?" ✓":""}</p>`).join("")}
+        <p class="lbl" style="margin-top:.6rem">${esc(q.e)}</p></article>`}).join("")}).join("");
+  show("results");
+}
+$("homeBtn").onclick=()=>show("home");
+
+function ask(msg,okText,onOk){
+  const m=$("modal");$("modalMsg").textContent=msg;$("modalOk").textContent=okText;m.classList.remove("hidden");
+  const close=()=>{m.classList.add("hidden");$("modalOk").onclick=$("modalCancel").onclick=null};
+  $("modalOk").onclick=()=>{close();onOk()};$("modalCancel").onclick=close;$("modalOk").focus();
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("modal").classList.contains("hidden"))$("modalCancel").click()});
+</script></body></html>
