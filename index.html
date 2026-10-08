@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ITIL Foundation (Version 5) practice exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF1F3;--surface:#FFFFFF;--ink:#172033;--muted:#5A6678;--line:#CBD3DB;
+  --accent:#2446C7;--accent-soft:#DCE3FA;--ok:#17785A;--ok-soft:#DDF1E9;--bad:#B8431C;--bad-soft:#F8E3DA;--flag:#9A6A0B;--flag-soft:#F6ECD4;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0F1522;--surface:#182033;--ink:#E6EBF2;--muted:#9AA6B8;--line:#2B3650;
+  --accent:#8EA6FF;--accent-soft:#25325C;--ok:#4FC79A;--ok-soft:#173A31;--bad:#F08A65;--bad-soft:#47261C;--flag:#E2B651;--flag-soft:#3E3219;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F1522;--surface:#182033;--ink:#E6EBF2;--muted:#9AA6B8;--line:#2B3650;
+  --accent:#8EA6FF;--accent-soft:#25325C;--ok:#4FC79A;--ok-soft:#173A31;--bad:#F08A65;--bad-soft:#47261C;--flag:#E2B651;--flag-soft:#3E3219;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:68rem;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em;line-height:1.15;margin:0}
+.hidden{display:none!important}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:.5rem;padding:.7rem 1.15rem;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--accent-soft)}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{border-color:var(--line);font-weight:400}
+
+/* home */
+.home h1{font-size:clamp(2.2rem,6vw,3.8rem);max-width:14ch;margin:1.5rem 0 1rem}
+.home .lede{max-width:56ch;color:var(--muted);margin:0 0 2rem}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem;margin-bottom:2.5rem}
+.mode{background:var(--surface);border:1.5px solid var(--line);border-radius:.75rem;padding:1.4rem;display:flex;flex-direction:column;gap:.6rem;text-align:left;cursor:pointer}
+button.mode:hover{border-color:var(--ink)}
+div.mode{cursor:default}
+.mode h2{font-size:1.35rem}
+.mode p{margin:0;color:var(--muted);font-size:.98rem}
+.psel{display:flex;flex-direction:column;gap:.25rem;font-size:.9rem;color:var(--muted)}
+.psel select{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:.4rem;padding:.45rem .5rem}
+.ritem h4{white-space:pre-line}
+.mode .go{margin-top:auto;padding-top:.6rem;font-weight:700;color:var(--accent)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));border-top:1.5px solid var(--ink);margin-bottom:2rem}
+.facts div{padding:.9rem .2rem;border-bottom:1px solid var(--line)}
+.facts b{display:block;font-family:var(--display);font-size:1.6rem}
+.facts span{color:var(--muted);font-size:.92rem}
+.weights{width:100%;border-collapse:collapse;font-size:.96rem}
+.weights td{padding:.45rem .2rem;border-bottom:1px solid var(--line)}
+.weights td:last-child{text-align:right;color:var(--muted);white-space:nowrap}
+.best{color:var(--muted);font-size:.95rem;margin-top:1.5rem}
+.opts{display:flex;align-items:center;gap:.5rem;margin:-1rem 0 2rem;color:var(--muted);font-size:.95rem}
+
+/* quiz */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.topbar .title{font-family:var(--display);font-weight:700;font-size:1.1rem}
+.timer{font-family:var(--display);font-weight:700;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.timer.low{color:var(--bad)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 17rem;gap:1.5rem;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:1fr}}
+.qcard{background:var(--surface);border:1.5px solid var(--line);border-radius:.75rem;padding:1.5rem}
+.qmeta{display:flex;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.92rem;margin-bottom:.75rem}
+.qtext{font-size:1.25rem;font-weight:700;margin:0 0 1.25rem;max-width:62ch;white-space:pre-line}
+.choices{display:flex;flex-direction:column;gap:.6rem}
+.choice{display:grid;grid-template-columns:2rem 1fr;gap:.75rem;align-items:start;text-align:left;background:transparent;border:1.5px solid var(--line);border-radius:.6rem;padding:.75rem .9rem;cursor:pointer}
+.choice:hover:not(:disabled){border-color:var(--ink)}
+.choice .letter{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.choice.sel{border-color:var(--accent);background:var(--accent-soft)}
+.choice.sel .letter{background:var(--accent);border-color:var(--accent);color:#fff}
+.choice.right{border-color:var(--ok);background:var(--ok-soft)}
+.choice.right .letter{background:var(--ok);border-color:var(--ok);color:#fff}
+.choice.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.choice.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+.choice:disabled{cursor:default}
+.feedback{margin-top:1.1rem;padding:1rem;border-radius:.6rem;border-left:4px solid var(--ok);background:var(--ok-soft)}
+.feedback.no{border-left-color:var(--bad);background:var(--bad-soft)}
+.feedback p{margin:.25rem 0 0}
+.nav{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.25rem;align-items:center}
+.nav .spacer{flex:1}
+.flagbtn[aria-pressed="true"]{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+
+/* answer sheet */
+.sheet{background:var(--surface);border:1.5px solid var(--line);border-radius:.75rem;padding:1.1rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 1rem)}
+.sheet h3{font-size:1rem;margin-bottom:.75rem}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.cell{aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);background:transparent;font-size:.82rem;font-weight:700;cursor:pointer;display:grid;place-items:center;padding:0;font-variant-numeric:tabular-nums;position:relative}
+.cell.done{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cell.cur{outline:2.5px solid var(--accent);outline-offset:2px}
+.cell.flag::after{content:"";position:absolute;top:-2px;right:-2px;width:.55rem;height:.55rem;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
+.cell.right{background:var(--ok);border-color:var(--ok);color:#fff}
+.cell.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.9rem;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.35rem;vertical-align:-1px;border:1.5px solid var(--line)}
+.sheet .btn{width:100%;margin-top:1rem}
+
+/* results */
+.score{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;margin:1rem 0 .5rem}
+.score .big{font-family:var(--display);font-size:clamp(3.5rem,12vw,6rem);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.verdict{font-family:var(--display);font-size:1.6rem;font-weight:700}
+.verdict.pass{color:var(--ok)}.verdict.fail{color:var(--bad)}
+.bars{margin:1.5rem 0 2rem;display:flex;flex-direction:column;gap:.7rem;max-width:40rem}
+.bar{display:grid;grid-template-columns:minmax(10rem,15rem) 1fr 3.5rem;gap:.75rem;align-items:center;font-size:.95rem}
+.track{height:.6rem;background:var(--line);border-radius:1rem;overflow:hidden}
+.fill{height:100%;background:var(--ink);border-radius:1rem}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+@media (max-width:560px){.bar{grid-template-columns:1fr 3.5rem}.bar .track{grid-column:1/-1;grid-row:2}}
+.review{display:flex;flex-direction:column;gap:1rem;margin-top:1rem}
+.ritem{background:var(--surface);border:1.5px solid var(--line);border-left:5px solid var(--ok);border-radius:.6rem;padding:1rem 1.2rem}
+.ritem.no{border-left-color:var(--bad)}
+.ritem h4{margin:0 0 .5rem;font-size:1.02rem}
+.ritem p{margin:.3rem 0;font-size:.97rem}
+.ritem .lbl{color:var(--muted)}
+.filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem}
+.filter button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.ok-t{color:var(--ok);font-weight:700}.bad-t{color:var(--bad);font-weight:700}
+.theme{border:1.5px solid var(--line);background:transparent;border-radius:2rem;padding:.35rem .8rem;cursor:pointer;font-size:.9rem}
+.note{color:var(--muted);font-size:.9rem;max-width:62ch;margin-top:2.5rem}
+@media (prefers-reduced-motion:no-preference){.choice,.cell,.mode{transition:border-color .15s,background-color .15s}}
+.modal{position:fixed;inset:0;background:rgba(10,15,25,.55);display:grid;place-items:center;padding:1.25rem;z-index:10}
+.modal.hidden{display:none}
+.mbox{background:var(--surface);color:var(--ink);border-radius:.75rem;padding:1.5rem;max-width:28rem;width:100%;border:1.5px solid var(--line)}
+.mbox p{margin:0;font-size:1.1rem;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="home" class="home">
+  <div class="topbar"><span class="title">ITIL practice</span><button class="theme" id="themeBtn" type="button">Toggle theme</button></div>
+  <h1>ITIL Foundation (Version 5) practice exam</h1>
+  <p class="lede"><span id="bankSize">0</span> original questions mapped to the official ITIL Foundation (Version 5) syllabus. Every mock exam draws a new random set of 40 in the official category weights, favouring questions you haven't seen yet.</p>
+  <div class="modes">
+    <button class="mode" data-mode="exam" type="button">
+      <h2>Mock exam</h2>
+      <p>40 questions drawn in the official category weights, with a 60-minute timer. Choose below whether to see answers as you go or only at the end.</p>
+      <span class="go">Start mock exam</span>
+    </button>
+    <div class="mode" role="group" aria-labelledby="pH">
+      <h2 id="pH">Practice</h2>
+      <p>No timer. See the right answer and the explanation after each question. Pick a category to focus on weak spots.</p>
+      <label class="psel">Category <select id="pCat"></select></label>
+      <label class="psel">Questions <select id="pCount"><option value="20">20</option><option value="40">40</option><option value="all">All</option></select></label>
+      <button class="btn primary" data-mode="practice" type="button" style="margin-top:auto">Start practice</button>
+    </div>
+    <button class="mode" data-mode="key" type="button">
+      <h2>Answer key</h2>
+      <p>Read every question with its correct answer and explanation, grouped by category.</p>
+      <span class="go">Open answer key</span>
+    </button>
+  </div>
+  <label class="opts" style="margin-bottom:.75rem"><input type="checkbox" id="instant"> Mock exam: show the correct answer and explanation right after each question</label>
+  <label class="opts"><input type="checkbox" id="extraTime"> Use 75 minutes (25% extra time for non-native speakers)</label>
+  <div class="facts">
+    <div><b>40</b><span>questions</span></div>
+    <div><b>60 min</b><span>time limit</span></div>
+    <div><b>26/40</b><span>to pass (65%)</span></div>
+    <div><b>0</b><span>penalty for wrong answers</span></div>
+  </div>
+  <h3 style="margin-bottom:.5rem">Syllabus weighting</h3>
+  <table class="weights"><tbody id="weightRows"></tbody></table>
+  <p class="best" id="best"></p>
+  <p class="note">These are independent practice questions written from the public syllabus, not real exam items. Use the official PeopleCert material as your final reference.</p>
+</section>
+
+<section id="quiz" class="hidden">
+  <div class="topbar">
+    <span class="title" id="quizTitle"></span>
+    <span class="timer" id="timer" aria-live="off"></span>
+    <button class="btn ghost" id="quitBtn" type="button">Exit</button>
+  </div>
+  <div class="layout">
+    <div class="qcard">
+      <div class="qmeta"><span id="qNum"></span><span id="qCat"></span></div>
+      <p class="qtext" id="qText"></p>
+      <div class="choices" id="choices" role="radiogroup" aria-labelledby="qText"></div>
+      <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+      <div class="nav">
+        <button class="btn ghost" id="prevBtn" type="button">Previous</button>
+        <button class="btn ghost flagbtn" id="flagBtn" type="button" aria-pressed="false">Flag for review</button>
+        <span class="spacer"></span>
+        <button class="btn primary" id="nextBtn" type="button">Next</button>
+      </div>
+    </div>
+    <aside class="sheet">
+      <h3>Answer sheet</h3>
+      <div class="grid" id="grid"></div>
+      <div class="legend" id="legend"></div>
+      <button class="btn primary" id="submitBtn" type="button">Submit exam</button>
+    </aside>
+  </div>
+</section>
+
+<section id="results" class="hidden">
+  <div class="topbar"><span class="title" id="resTitle">Results</span><button class="btn ghost" id="homeBtn" type="button">Back to start</button></div>
+  <div class="score"><span class="big" id="resScore"></span><span class="verdict" id="resVerdict"></span></div>
+  <p id="resSub" style="color:var(--muted);margin:0"></p>
+  <div class="bars" id="bars"></div>
+  <div class="nav"><button class="btn primary" id="retryBtn" type="button">Try another mock exam</button></div>
+  <h2 style="margin-top:2.5rem;font-size:1.5rem" id="reviewHead">Review your answers</h2>
+  <div class="filter" id="filter"></div>
+  <div class="review" id="review"></div>
+</section>
+
+</div>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalMsg">
+  <div class="mbox"><p id="modalMsg"></p><div class="nav"><button class="btn ghost" id="modalCancel" type="button">Keep working</button><span class="spacer"></span><button class="btn primary" id="modalOk" type="button">OK</button></div></div>
+</div>
+<script>
+const QUESTIONS = [
+{c:"T",q:"How does ITIL define 'value'?",o:["The perceived benefits, usefulness and importance of something","The financial gain from a service","A tangible result of an activity","The agreed quality of a service"],a:0,e:"Value is 'the perceived benefits, usefulness and importance of something'. It is subjective and depends on the stakeholder's perception."},
+{c:"T",q:"What is an 'outcome'?",o:["A tangible or intangible deliverable of an activity","A result for a stakeholder enabled by one or more outputs","A configuration of an organization's resources","An amount of money spent on an activity"],a:1,e:"An outcome is the result for the stakeholder (e.g. 'staff can work from home'); an output is what an activity delivers (e.g. a VPN account)."},
+{c:"T",q:"What is an 'output'?",o:["A result for a stakeholder","A tangible or intangible deliverable of an activity","The perceived benefit of something","A possible event that could cause harm"],a:1,e:"Output = 'a tangible or intangible deliverable of an activity'."},
+{c:"T",q:"What does 'utility' describe?",o:["Assurance that a service will meet agreed requirements","The functionality offered by a product or service to meet a particular need","The cost of running a service","The time a service is available"],a:1,e:"Utility is 'fit for purpose' — what the service does. Warranty is 'fit for use' — how well it does it."},
+{c:"T",q:"What does 'warranty' describe?",o:["Assurance that a product or service will meet agreed requirements","The functionality of a service","A document describing service offerings","A supplier contract"],a:0,e:"Warranty typically covers availability, capacity, security and continuity — whether the service is 'fit for use'."},
+{c:"T",q:"Which definition best describes a 'service'?",o:["A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks","A set of interrelated activities that transform inputs into outputs","A contract between a provider and a consumer","A physical good delivered to a customer"],a:0,e:"A service removes certain costs and risks from the customer and enables value co-creation. A set of activities transforming inputs into outputs is a process."},
+{c:"T",q:"Which role authorizes the budget for service consumption?",o:["User","Customer","Sponsor","Supplier"],a:2,e:"The sponsor authorizes the budget. The customer defines requirements and takes responsibility for outcomes. The user uses the service."},
+{c:"T",q:"Which role defines the requirements for a service and takes responsibility for the outcomes of service consumption?",o:["User","Customer","Sponsor","Service desk"],a:1,e:"The customer defines requirements and is responsible for the outcomes of service consumption."},
+{c:"T",q:"What can a service offering include?",o:["Software only","Goods, access to resources, and service actions","Staff resources only","Service level agreements only"],a:1,e:"A service offering is a formal description of one or more services for a target consumer group and may include goods, access to resources and service actions."},
+{c:"T",q:"What is a 'service relationship'?",o:["A legal contract with a supplier","A cooperation between a service provider and a service consumer","A process for handling complaints","A team's internal reporting line"],a:1,e:"A service relationship is a cooperation between provider and consumer, including service provision, service consumption and service relationship management."},
+{c:"T",q:"How does ITIL define 'risk'?",o:["A possible event that could cause harm or loss, or make it more difficult to achieve objectives","An unplanned interruption to a service","The cause of one or more incidents","An amount of money spent on a resource"],a:0,e:"Risk can also be seen as uncertainty of outcome — positive or negative. An unplanned interruption is an incident; the cause of incidents is a problem."},
+{c:"T",q:"What is 'cost' in ITIL?",o:["The perceived value of something","The amount of money spent on a specific activity or resource","The price paid by the customer","A risk that has materialized"],a:1,e:"Cost is 'the amount of money spent on a specific activity or resource'. A service can both remove and impose costs on the consumer."},
+{c:"T",q:"What is a 'product' in ITIL?",o:["A configuration of an organization's resources designed to offer value for a consumer","A physical good","A contract","A process"],a:0,e:"Products are often complex and not fully visible to the consumer; services are based on one or more products."},
+{c:"T",q:"Who creates value according to ITIL?",o:["The service provider alone","The customer alone","Providers and consumers together, through co-creation","Suppliers"],a:2,e:"Value is co-created through active collaboration between providers, consumers and other stakeholders."},
+{c:"T",q:"What is an 'organization' in ITIL?",o:["A legal entity with a registration number","A person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives","An IT department","A project team"],a:1,e:"An organization can be anything from a single person to a large conglomerate."},
+{c:"D",q:"Which of the following is NOT one of the four dimensions?",o:["Organizations and people","Information and technology","Governance and compliance","Partners and suppliers"],a:2,e:"The four dimensions are Organizations and people, Information and technology, Partners and suppliers, and Value streams and processes."},
+{c:"D",q:"An organization is deciding what data to store and which tools to use. Which dimension does this belong to?",o:["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],a:1,e:"Information and technology covers the information, knowledge and technologies used to manage and deliver services."},
+{c:"D",q:"Which dimension covers an organization's relationships with other organizations involved in design, delivery and support?",o:["Partners and suppliers","Organizations and people","Value streams and processes","Information and technology"],a:0,e:"Partners and suppliers covers contracts, partnerships and sourcing strategy."},
+{c:"D",q:"What is a 'process'?",o:["A set of interrelated or interacting activities that transform inputs into outputs","A series of steps from demand to value","A set of organizational resources","An agreement between two parties"],a:0,e:"Processes belong to the Value streams and processes dimension. A series of steps from demand to value describes a value stream."},
+{c:"D",q:"Which model is used to describe the external factors that affect the four dimensions?",o:["SWOT","PESTLE","RACI","Kanban"],a:1,e:"PESTLE: Political, Economic, Social, Technological, Legal and Environmental."},
+{c:"L",q:"Which of the following is NOT one of the eight activities in the ITIL Product and Service Lifecycle?",o:["Discover","Acquire","Retire","Transition"],a:2,e:"The eight activities are Discover, Design, Acquire, Build, Transition, Operate, Deliver and Support."},
+{c:"L",q:"How should the lifecycle activities be applied?",o:["Strictly sequentially, once","Iteratively and flexibly, often in parallel and with feedback","Only in the order the customer decides","Only for new products"],a:1,e:"The lifecycle is iterative — activities can run concurrently, and feedback can lead back to earlier activities."},
+{c:"L",q:"Which lifecycle activity is about identifying needs, opportunities and ideas for new or changed products and services?",o:["Discover","Build","Operate","Support"],a:0,e:"Discover aligns product capabilities with consumer needs and the organization's strategy."},
+{c:"L",q:"Which activity is about obtaining components, resources or services from external suppliers?",o:["Design","Acquire","Deliver","Transition"],a:1,e:"Acquire is about securing and allocating the resources the organization needs efficiently, including from suppliers."},
+{c:"L",q:"Which activity moves new or changed products and services into use?",o:["Build","Transition","Discover","Acquire"],a:1,e:"Transition ensures that new or changed components are brought into live use in a controlled way."},
+{c:"L",q:"A major outage hits a customer-facing platform. Which lifecycle activity is responsible for limiting the damage and restoring normal service?",o:["Operate","Design","Support","Build"],a:2,e:"Support focuses on resolving incidents and minimizing the impact of incidents and disasters, including recovery."},
+{c:"V",q:"Which of the following is NOT a component of the ITIL Value System?",o:["Guiding principles","Governance","Service level agreements","Continual improvement"],a:2,e:"The components are guiding principles, governance, the value chain, management practices and continual improvement."},
+{c:"V",q:"What is the purpose of the ITIL Value System?",o:["To ensure the organization continually co-creates value with all stakeholders","To define service level agreements","To replace project management","To reduce the number of suppliers"],a:0,e:"The Value System describes how all components and activities work together to enable value creation."},
+{c:"V",q:"Before building a new tool, a team analyses what already exists and could be reused. Which guiding principle is this?",o:["Focus on value","Start where you are","Optimize and automate","Keep it simple and practical"],a:1,e:"Start where you are: don't start from scratch; observe and reuse what exists."},
+{c:"V",q:"Which principle states that everything the organization does should link, directly or indirectly, to value for stakeholders?",o:["Focus on value","Think and work holistically","Collaborate and promote visibility","Start where you are"],a:0,e:"Focus on value requires understanding who receives the value and what value means to them."},
+{c:"V",q:"A large improvement initiative is split into smaller, manageable pieces with regular evaluation. Which principle is this?",o:["Think and work holistically","Progress iteratively with feedback","Optimize and automate","Focus on value"],a:1,e:"Small steps with feedback loops allow the course to be adjusted along the way."},
+{c:"V",q:"Which principle is about involving the right stakeholders and making work and its results visible?",o:["Collaborate and promote visibility","Keep it simple and practical","Start where you are","Optimize and automate"],a:0,e:"Visibility leads to better decisions and builds trust and buy-in."},
+{c:"V",q:"Which principle emphasizes that no product, service or element stands alone?",o:["Focus on value","Think and work holistically","Progress iteratively with feedback","Keep it simple and practical"],a:1,e:"Results suffer unless the organization works on the whole — all four dimensions must be considered."},
+{c:"V",q:"A team removes steps from a process because they add no value. Which principle is this?",o:["Optimize and automate","Keep it simple and practical","Collaborate and promote visibility","Start where you are"],a:1,e:"Keep it simple and practical: use the minimum number of steps needed and remove anything that doesn't create value."},
+{c:"V",q:"What does the principle 'Optimize and automate' recommend?",o:["Automate everything as quickly as possible","Optimize first, then automate, and use people where they add the most value","Avoid automation","Let suppliers handle automation"],a:1,e:"Automating a poor process just gives you a faster poor process — optimize first."},
+{c:"V",q:"What characterizes the guiding principles?",o:["They apply only to the IT department","They are recommendations that can guide an organization in all circumstances","They are mandatory rules","They must be applied one at a time"],a:1,e:"The principles are universal and enduring, and should usually be applied in combination."},
+{c:"V",q:"What is governance?",o:["The means by which an organization is directed and controlled","Day-to-day service operation","A fixed process for changes","Supplier management"],a:0,e:"Governance sets direction and checks that the organization is moving towards its objectives."},
+{c:"V",q:"At which level does continual improvement apply?",o:["Strategic only","Operational only","At all levels of the organization","In IT only"],a:2,e:"Continual improvement is everyone's responsibility and happens at strategic, tactical and operational levels."},
+{c:"V",q:"What is the first step of the continual improvement model?",o:["Where are we now?","What is the vision?","Take action","How do we get there?"],a:1,e:"The model: What is the vision? → Where are we now? → Where do we want to be? → How do we get there? → Take action → Did we get there? → How do we keep the momentum going?"},
+{c:"V",q:"Which step of the continual improvement model involves a baseline assessment?",o:["What is the vision?","Where are we now?","Did we get there?","Take action"],a:1,e:"'Where are we now?' objectively maps the current state — a baseline."},
+{c:"V",q:"What is a 'management practice'?",o:["A set of organizational resources designed for performing work or accomplishing an objective","A single process","A department","A software tool"],a:0,e:"Practices span all four dimensions, not just processes."},
+{c:"V",q:"What are the input and output of the ITIL Value System?",o:["Input: requirements; output: SLA","Input: opportunity and demand; output: value","Input: incidents; output: resolutions","Input: budget; output: products"],a:1,e:"Opportunity and demand enter the system; the result is value for the organization, its customers and other stakeholders."},
+{c:"V",q:"Users report that the payroll system is unavailable. What is this?",o:["Incident","Event","Service request","Known error"],a:0,e:"An unplanned interruption to a service is an incident."},
+{c:"V",q:"A monitoring tool records that a server's CPU usage has passed 80%. Users are not affected. What is this?",o:["Incident","Event","Problem","Service request"],a:1,e:"It is a significant change of state (an event), but there is no interruption or loss of quality, so it is not an incident."},
+{c:"V",q:"What is a 'problem'?",o:["An unplanned interruption to a service","A cause, or potential cause, of one or more incidents","A customer complaint","A failed change"],a:1,e:"Incident = the interruption; problem = the cause behind it."},
+{c:"V",q:"A user asks to have their password reset. What is this?",o:["Incident","Problem","Service request","Normal change"],a:2,e:"A service request initiates a pre-agreed service action that is a normal part of service delivery."},
+{c:"S",q:"What is a 'value stream'?",o:["A series of steps an organization undertakes to create and deliver products and services to consumers","A financial budget","A list of services","A set of KPIs"],a:0,e:"Value streams show how work moves from demand to value."},
+{c:"S",q:"What is a typical purpose of value stream mapping?",o:["To identify waste, bottlenecks and improvement opportunities in the flow","To draft contracts","To allocate budgets","To recruit staff"],a:0,e:"Mapping makes flow, waiting time and non-value-adding steps visible."},
+{c:"A",q:"What distinguishes agentic AI from generative AI?",o:["Agentic AI can independently plan and take actions to achieve a goal","Agentic AI can only generate text","Agentic AI requires no governance","There is no difference"],a:0,e:"Generative AI creates content; agentic AI acts autonomously — which makes governance even more important."},
+{c:"F",q:"How does ITIL relate to DevOps and PRINCE2?",o:["ITIL replaces them","They conflict and should not be combined","They complement each other: ITIL provides product and service management guidance, while DevOps and PRINCE2 contribute delivery and project methods","PRINCE2 replaces ITIL"],a:2,e:"ITIL provides the overall framework, while DevOps and PRINCE2 contribute practices, techniques and project methods."}
+];
+QUESTIONS.push(
+// ---------- KEY TERMS ----------
+{c:"T",q:"Identify the missing word in the following sentence.\n\nA [ ? ] is the role in a service relationship that uses services.",o:["Sponsor","Customer","User","Supplier"],a:2,e:"The user uses the service. The customer defines requirements and owns outcomes; the sponsor authorizes the budget."},
+{c:"T",q:"Identify the missing word in the following sentence.\n\n[ ? ] is the assurance that a product or service will meet agreed requirements.",o:["Utility","Warranty","Value","Quality"],a:1,e:"Warranty answers 'how well' — availability, capacity, security, continuity. Utility answers 'what it does'."},
+{c:"T",q:"Identify the missing word in the following sentence.\n\n[ ? ] is the functionality offered by a product or service to meet a particular need.",o:["Utility","Warranty","Sustainability","Service level"],a:0,e:"Utility is 'fit for purpose': the functions the product or service performs."},
+{c:"T",q:"What are 'goods' in a service offering?",o:["Tangible resources whose ownership is transferred to the consumer, along with responsibility for their use","Resources the consumer can use under agreed terms while ownership stays with the provider","Actions performed by the provider to meet a consumer need","Agreed service levels"],a:0,e:"With goods, ownership moves to the consumer (e.g. a phone handset). With access to resources, ownership stays with the provider."},
+{c:"T",q:"What is meant by 'access to resources' in a service offering?",o:["Ownership of resources is transferred to the consumer","The consumer is granted use of resources under agreed terms, while ownership is not transferred","The provider performs work on behalf of the consumer","The consumer builds its own resources"],a:1,e:"Example: access to a mobile network or cloud storage — you can use it, but you don't own it."},
+{c:"T",q:"What are 'service actions'?",o:["Physical items delivered to the consumer","Actions performed by the service provider to address a consumer's needs","Contract clauses in an SLA","Metrics used to measure a service"],a:1,e:"Service actions include things like user support, fixing a laptop or handling a request."},
+{c:"T",q:"A mobile operator gives a customer a handset, network access and a support hotline. What is the handset an example of?",o:["Transfer of goods","Access to resources","A service action","A service level"],a:0,e:"The handset's ownership passes to the customer, so it is a transfer of goods. Network access is access to resources; the hotline is a service action."},
+{c:"T",q:"A company uses a cloud provider's storage platform without owning any of the hardware. Which element of a service offering is this?",o:["Transfer of goods","Access to resources","A service action","A product prototype"],a:1,e:"The consumer uses the provider's resources under agreed terms; ownership stays with the provider."},
+{c:"T",q:"What is a 'service provider'?",o:["A role performed by an organization in a service relationship to provide services to consumers","Any external supplier","The person who uses a service","The department that pays for IT"],a:0,e:"Service provider and service consumer are roles. The same organization can play both roles in different relationships."},
+{c:"T",q:"What is a 'service consumer'?",o:["A role performed by an organization in a service relationship to consume services","Only the end user of a service","An external customer who pays","A supplier of digital products"],a:0,e:"The consumer role includes the more specific roles of customer, user and sponsor."},
+{c:"T",q:"Which statement about service relationships is CORRECT?\n\n1. The same organization can act as both a service provider and a service consumer.\n2. The service consumer role includes the roles of sponsor, customer and user.\n3. The user is always the person who pays for the service.\n4. A service provider must always be an external organization.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"Organizations commonly provide services to some parties while consuming services from others, and the consumer role breaks down into sponsor, customer and user. Providers can be internal or external."},
+{c:"T",q:"Which roles are part of the service consumer role?",o:["Sponsor, customer and user","Supplier, partner and vendor","Service owner, service desk and manager","Developer, tester and operator"],a:0,e:"Sponsor (authorizes budget), customer (defines requirements, owns outcomes) and user (uses the service)."},
+{c:"T",q:"Which type of service relationship is based mainly on standardized products and services, with limited interaction and customization?",o:["Basic","Cooperative","Collaborative (partnership)","Strategic"],a:0,e:"A basic relationship uses standardized offerings. Cooperative relationships involve more tailoring; collaborative (partnership) relationships share goals and co-create deeply."},
+{c:"T",q:"Which type of service relationship is characterized by shared goals, high mutual trust and close joint work on value co-creation?",o:["Basic","Cooperative","Collaborative (partnership)","Transactional"],a:2,e:"A collaborative (partnership) relationship involves deep integration and jointly defined goals."},
+{c:"T",q:"How does a cooperative service relationship differ from a basic one?",o:["It uses only standardized, off-the-shelf offerings","It involves more interaction and some tailoring of offerings to the consumer's needs","It requires the provider and consumer to merge","It has no agreed service levels"],a:1,e:"Cooperative sits between basic (standardized) and collaborative/partnership (shared goals, deep integration)."},
+{c:"T",q:"What is the 'service journey'?",o:["The end-to-end experience of a service consumer's interactions with a provider and its products and services","The internal path a ticket takes through support teams","A project plan for a new service","The lifecycle of a single configuration item"],a:0,e:"The service journey is seen from the consumer's perspective — from first exploring an offering to using it and beyond."},
+{c:"T",q:"What is 'service quality'?",o:["The totality of a service's characteristics that are relevant to its ability to satisfy stated and implied needs","The number of incidents per month","The price of a service compared to competitors","The written agreement between provider and customer"],a:0,e:"Service quality covers both stated and implied needs — not only what is written in an agreement."},
+{c:"T",q:"What is a 'service level'?",o:["One or more metrics that define expected or achieved service quality","A tier of support staff","A documented agreement with a customer","The cost of a service"],a:0,e:"Service levels are expressed as metrics (e.g. availability 99.9%). They are typically documented in an SLA."},
+{c:"T",q:"What is a 'service level agreement' (SLA)?",o:["A documented agreement between a service provider and a customer that identifies both the services required and the expected level of service","An internal list of IT tasks","A contract with a hardware supplier","A dashboard of technical metrics"],a:0,e:"An SLA records which services are required and what level of service is expected."},
+{c:"T",q:"A provider meets every SLA target, yet users are unhappy with the service. What does this BEST illustrate?",o:["SLAs are unnecessary","Service levels should reflect outcomes and user experience, not only technical metrics","Users should be removed from SLA discussions","The provider should add more technical metrics"],a:1,e:"Often called the 'watermelon effect': green on the outside, red inside. Agreements should be linked to what consumers actually value."},
+{c:"T",q:"Which set of concepts does ITIL (Version 5) use to describe what a product or service offers its consumers?",o:["Utility, warranty, user experience and sustainability","Cost, time, scope and quality","Plan, do, check and act","People, process, product and partner"],a:0,e:"Version 5 adds user experience and sustainability alongside the familiar utility and warranty."},
+{c:"T",q:"What does 'user experience' refer to?",o:["A user's perceptions and responses resulting from the use or anticipated use of a product or service","The number of years a user has worked in IT","The training given to the service desk","The technical availability of a system"],a:0,e:"User experience is about how people perceive and respond to using a product or service — it affects the value they perceive."},
+{c:"T",q:"In ITIL (Version 5), what does 'sustainability' consider in products and services?",o:["Only the cost-efficiency of IT","Meeting present needs without compromising the ability of future generations to meet theirs, including environmental, social and economic impact","Keeping legacy systems running as long as possible","Avoiding change"],a:1,e:"Sustainability looks beyond the immediate transaction to wider environmental, social and economic effects."},
+{c:"T",q:"Which is the BEST example of a digital service?",o:["A printed product brochure","Online banking delivered through a mobile app","A delivery of office furniture","A face-to-face training course with paper handouts"],a:1,e:"A digital service relies fully or largely on digital products — here, the banking app and its platforms."},
+{c:"T",q:"A service desk closes 200 tickets each week, so staff can keep working with minimal disruption. Which is the OUTCOME?",o:["200 closed tickets","The ticket reports","Staff can keep working with minimal disruption","The service desk tool"],a:2,e:"Closed tickets are outputs. The outcome is the result for the stakeholder: being able to keep working."},
+{c:"T",q:"A company moves its email to a cloud provider. Which is a cost IMPOSED on the company by the new service?",o:["Buying email server hardware","Training staff to use the new email platform","Paying for in-house server maintenance","Hiring email server administrators"],a:1,e:"Services remove some costs (hardware, admin staff) but impose others (subscription fees, training, integration)."},
+{c:"T",q:"A company outsources its email to a cloud provider. Which risk is REMOVED from the company?",o:["Failure of the company's own email server hardware","The provider suffering a security breach","Dependence on the provider's internet connectivity","The provider going out of business"],a:0,e:"The hardware risk moves to the provider. The other options are risks the new service imposes on the consumer."},
+{c:"T",q:"Which statement about value is CORRECT?\n\n1. Value is subjective and depends on the stakeholder's perception.\n2. Value is co-created through collaboration between providers and consumers.\n3. Value is defined by the service provider alone.\n4. Value is always purely financial.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"Value is the perceived benefits, usefulness and importance of something, and it is co-created — never defined by the provider alone or limited to money."},
+{c:"T",q:"How do outcomes, costs and risks relate to value co-creation?",o:["Value is created only by reducing costs","A service creates value when it facilitates desired outcomes while the consumer judges the costs and risks it removes and imposes to be acceptable","Risks have no effect on value","Outcomes are less important than outputs"],a:1,e:"Consumers weigh the outcomes they gain against the costs and risks removed or imposed."},
+{c:"T",q:"How is 'continual improvement' described as a key concept of digital product and service management?",o:["A one-off project run every few years","A recurring organizational activity performed at all levels to ensure performance continually meets stakeholders' expectations","A task owned only by the quality department","A process used only after major incidents"],a:1,e:"Continual improvement is ongoing, happens at every level and is everyone's responsibility."},
+{c:"T",q:"Which statement about products and services is CORRECT?",o:["A service is based on one or more products","A product can only be physical","Products and services are the same thing","Services never include products"],a:0,e:"Products are configurations of resources; services are based on one or more products and offered to consumers."},
+{c:"T",q:"What is the ITIL Product and Service Lifecycle?",o:["A model of the activities used to manage digital products and services, from discovering needs to supporting their use","A fixed waterfall project method","A list of ITIL certifications","A financial depreciation schedule"],a:0,e:"It consists of eight activities — discover, design, acquire, build, transition, operate, deliver and support — used iteratively."},
+// ---------- FOUR DIMENSIONS ----------
+{c:"D",q:"An organization changes its team structure and trains staff to use a new platform. Which dimension is MOST affected?",o:["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],a:0,e:"Organizations and people covers structures, roles, culture, skills and competencies."},
+{c:"D",q:"A company decides to outsource its data center to an external provider. Which dimension does this decision MOSTLY concern?",o:["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],a:2,e:"Sourcing strategy and relationships with other organizations fall under partners and suppliers."},
+{c:"D",q:"Which dimension focuses on how the various parts of the organization work together in an integrated and coordinated way to create value?",o:["Value streams and processes","Organizations and people","Partners and suppliers","Information and technology"],a:0,e:"Value streams and processes define the activities, workflows and controls that turn demand into value."},
+{c:"D",q:"Why is it important to consider all four dimensions in a balanced way?",o:["Because ITIL requires equal budgets for each","Because neglecting one dimension can cause products and services to fail to deliver the expected value","Because only one dimension applies at a time","Because external factors do not matter"],a:1,e:"The four dimensions represent a holistic approach — focusing on technology alone, for example, can leave people or processes unable to deliver."},
+{c:"D",q:"A new data protection law requires changes to how customer data is stored. Which PESTLE factor is this?",o:["Political","Social","Legal","Economic"],a:2,e:"Laws and regulations are legal factors that influence all four dimensions."},
+{c:"D",q:"Requirements to reduce carbon emissions from data centers are an example of which external factor?",o:["Technological","Environmental","Economic","Social"],a:1,e:"Environmental factors include climate and ecological concerns — closely linked to sustainability."},
+{c:"D",q:"Which is NOT an external factor in the PESTLE model?",o:["Political","Economic","Organizational culture","Technological"],a:2,e:"Organizational culture is internal and belongs to the organizations and people dimension. PESTLE covers external factors."},
+{c:"D",q:"Which question is MOST relevant to the information and technology dimension?",o:["Who is accountable for this service?","What information is needed, and how will it be managed and protected?","Which supplier should provide support?","What is the sequence of steps to fulfil a request?"],a:1,e:"This dimension covers information, knowledge and the technologies — including AI and cloud — used to manage and deliver services."},
+{c:"D",q:"Which dimension addresses the sequence of activities and workflows needed to deliver a product or service?",o:["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],a:3,e:"Workflows, activities and their sequence are part of value streams and processes."},
+{c:"D",q:"How do the four dimensions relate to products and services?",o:["They apply only to IT departments","They apply to the organization as a whole and to each product and service","They apply only during the design activity","They apply only to external suppliers"],a:1,e:"The four dimensions are relevant to the whole value system and to every product and service it manages."},
+// ---------- LIFECYCLE ----------
+{c:"L",q:"What is the purpose of the 'design' activity?",o:["To create specifications, designs and prototypes for products and services that meet stakeholder needs","To keep components running as specified","To obtain resources from suppliers","To fix user issues"],a:0,e:"Design turns identified needs into specifications and prototypes that guide build and acquisition."},
+{c:"L",q:"What is the purpose of the 'build' activity?",o:["To identify market opportunities","To create, assemble, integrate and test product components so they are ready for use","To negotiate supplier contracts","To handle service requests"],a:1,e:"Build produces working components and includes testing them against requirements."},
+{c:"L",q:"What is the purpose of the 'operate' activity?",o:["To maintain and monitor digital products so they run and perform as specified","To discover new user needs","To design new services","To manage projects"],a:0,e:"Operate is the technical running of products: maintaining them and monitoring their behaviour and performance."},
+{c:"L",q:"What is the purpose of the 'deliver' activity?",o:["To build software components","To provide services to users as agreed, including onboarding users and fulfilling service requests","To retire old products","To create prototypes"],a:1,e:"Deliver focuses on making services available to and usable by consumers, including user onboarding and request fulfilment."},
+{c:"L",q:"A team builds a clickable prototype of a new app to test the concept with users. Which lifecycle activity is this?",o:["Discover","Design","Build","Transition"],a:1,e:"Prototypes and product specifications belong to design."},
+{c:"L",q:"Developers write code and run automated tests on new features. Which lifecycle activity is this?",o:["Design","Build","Operate","Support"],a:1,e:"Creating, integrating and testing components is build."},
+{c:"L",q:"An organization selects a SaaS vendor and signs a contract for a new HR platform. Which lifecycle activity is this?",o:["Acquire","Build","Deliver","Discover"],a:0,e:"Obtaining components or services from external parties is acquire."},
+{c:"L",q:"A team deploys a new release into the live environment. Which lifecycle activity is this?",o:["Build","Transition","Operate","Support"],a:1,e:"Moving new or changed components into live use, including releases and deployment, is transition."},
+{c:"L",q:"A product team runs user interviews and market research to identify unmet needs. Which lifecycle activity is this?",o:["Discover","Design","Acquire","Deliver"],a:0,e:"Discover explores needs, opportunities and ideas."},
+{c:"L",q:"An operations team uses observability tools to monitor the performance and availability of a platform. Which lifecycle activity is this?",o:["Build","Transition","Operate","Discover"],a:2,e:"Keeping components running and performing as specified, including monitoring, is operate."},
+{c:"L",q:"A team investigates the root cause of recurring incidents and records known errors. Which lifecycle activity is this MOST associated with?",o:["Design","Support","Acquire","Discover"],a:1,e:"Problems, errors, known errors and disasters are handled as part of support, which aims to minimize the impact of incidents and disasters."},
+{c:"L",q:"Which metric is MOST relevant for measuring the success of the 'transition' activity?",o:["Number of market opportunities identified","Percentage of successful deployments","Supplier contract value","Number of prototypes created"],a:1,e:"Transition success is measured by safe, successful movement of changes into live use."},
+{c:"L",q:"Which metric is MOST relevant for measuring the success of the 'operate' activity?",o:["Availability and performance of products against agreed targets","Number of user interviews conducted","Number of new suppliers","Number of training courses held"],a:0,e:"Operate is about running products as specified, so availability and performance are key."},
+{c:"L",q:"Which statement about the ITIL Product and Service Lifecycle is CORRECT?\n\n1. Several activities can be performed at the same time.\n2. The value chain activities enable the lifecycle.\n3. Each activity must be completed before the next one can start.\n4. The lifecycle applies only to brand new products.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"Activities are neither sequential nor linear, and the value chain activities enable the lifecycle. It applies to existing and changing products too."},
+{c:"L",q:"Identify the missing word in the following sentence.\n\nThe digital product and service lifecycle management activities are neither sequential nor [ ? ].",o:["Linear","Measurable","Flexible","Iterative"],a:0,e:"They are not sequential or linear and can be used iteratively."},
+{c:"L",q:"Which list shows the eight lifecycle activities in the order they are usually presented?",o:["Discover, design, acquire, build, transition, operate, deliver, support","Plan, build, test, deploy, run, support, improve, retire","Strategy, design, transition, operation, improvement, deliver, support, acquire","Discover, plan, design, build, test, release, operate, retire"],a:0,e:"Discover, design, acquire, build, transition, operate, deliver, support — but used iteratively, not as a fixed sequence."},
+// ---------- VALUE SYSTEM ----------
+{c:"V",q:"Which is NOT one of the ITIL guiding principles?",o:["Focus on value","Follow the process exactly as documented","Keep it simple and practical","Think and work holistically"],a:1,e:"The seven principles: focus on value, start where you are, progress iteratively with feedback, collaborate and promote visibility, think and work holistically, keep it simple and practical, optimize and automate."},
+{c:"V",q:"When applying 'start where you are', what should be remembered about measurement?",o:["Measurement should replace direct observation","Measurement supports analysis, but direct observation is often needed to see what is really happening","Measurement is never useful","Only financial measurements matter"],a:1,e:"Data can be incomplete or misleading. Going to where the work happens gives a more accurate picture."},
+{c:"V",q:"Which activity is MOST closely associated with the 'focus on value' principle?",o:["Identifying who the service consumer is and understanding their experience","Automating every manual task","Removing all documentation","Reusing existing tools"],a:0,e:"Focus on value starts with knowing who you serve, what value means to them and how they experience the service."},
+{c:"V",q:"When should feedback be sought according to 'progress iteratively with feedback'?",o:["Only after the work is finished","Before, during and after each iteration","Only when something goes wrong","Only from senior management"],a:1,e:"Feedback loops throughout let teams adjust direction and priorities as they learn."},
+{c:"V",q:"What is a common consequence of insufficient visibility of work?",o:["Faster decisions","Poor decision-making and reduced trust","Lower costs","Better automation"],a:1,e:"'Collaborate and promote visibility' stresses that hidden work leads to poor decisions and resistance."},
+{c:"V",q:"Which statement BEST reflects 'keep it simple and practical'?",o:["Design a solution for every possible exception","If a process, action or metric fails to provide value, eliminate it","Add controls wherever possible","Avoid involving stakeholders"],a:1,e:"Use the minimum steps needed. Trying to cover every exception leads to over-complication."},
+{c:"V",q:"According to 'optimize and automate', when should human intervention be kept?",o:["Never — everything should be automated","Where it genuinely contributes to value","Only for documentation","Only in emergencies"],a:1,e:"Technology should be used to the fullest, but humans should intervene where they add value."},
+{c:"V",q:"How should the guiding principles be used?",o:["One at a time, in a fixed order","Together, considering which are relevant in each situation","Only by senior management","Only when designing new services"],a:1,e:"The principles interact. Organizations should consider them together rather than applying them in isolation."},
+{c:"V",q:"A team wants to replace a monitoring tool. Before buying a new one, they assess what the current tool already does well. Which principle are they applying?",o:["Optimize and automate","Start where you are","Progress iteratively with feedback","Focus on value"],a:1,e:"Start where you are: assess the current state and reuse what works, rather than starting from scratch."},
+{c:"V",q:"A change affects service desk staff, tools, a supplier contract and a workflow. Which principle reminds the team to consider all of these?",o:["Think and work holistically","Keep it simple and practical","Focus on value","Start where you are"],a:0,e:"Thinking holistically means considering all four dimensions and how parts of the system interact."},
+{c:"V",q:"Which activities are typically performed by governance?",o:["Evaluate, direct and monitor","Plan, build and run","Discover, design and deliver","Detect, log and resolve"],a:0,e:"Governance evaluates the organization's situation, directs strategy and policy, and monitors performance and compliance."},
+{c:"V",q:"Which statement BEST describes the enabling nature of governance?",o:["Governance should only restrict what teams can do","Governance should provide direction and the right level of control so the organization can create value effectively","Governance applies only to finance","Governance replaces management"],a:1,e:"Good governance enables value creation, not just control. It sets direction and boundaries within which teams can work."},
+{c:"V",q:"What is the 'value chain' in ITIL?",o:["A set of interconnected activities that an organization performs to create and deliver products and services, enabling the product and service lifecycle","A list of suppliers ranked by cost","A financial model for pricing services","A sequence of approvals for changes"],a:0,e:"The value chain activities enable the ITIL Product and Service Lifecycle."},
+{c:"V",q:"What is a 'product specification'?",o:["A detailed description of a product's features, requirements and characteristics","An early working model used to test a concept","A sales brochure","A contract with a vendor"],a:0,e:"A specification describes what the product must be and do. A prototype is an early model used to test ideas."},
+{c:"V",q:"What is a 'product prototype'?",o:["The final released product","An early model or version of a product used to explore, test and validate a concept","A list of requirements","An SLA template"],a:1,e:"Prototypes help validate ideas with stakeholders before full-scale build."},
+{c:"V",q:"What is an 'incident'?",o:["An unplanned interruption to a service or a reduction in the quality of a service","Any change of state that has significance for management","The cause of one or more problems","A planned outage"],a:0,e:"Incident = unplanned interruption or quality reduction. Event = any significant change of state."},
+{c:"V",q:"What is an 'event'?",o:["An unplanned interruption to a service","Any change of state that has significance for the management of a service or other configuration item","A user request for information","A known error"],a:1,e:"Events are detected through monitoring. Some events indicate incidents; many are informational."},
+{c:"V",q:"What is a 'release'?",o:["A version of a service or other configuration item, or a collection of them, that is made available for use","A request from a user","The cause of an incident","A supplier invoice"],a:0,e:"Releases are made available in transition; testing typically happens during build."},
+{c:"V",q:"What is the purpose of 'testing' a product or component?",o:["To verify that it meets requirements and works as expected before it is used","To negotiate prices with suppliers","To record user complaints","To monitor production systems"],a:0,e:"Testing checks that components meet requirements and quality expectations."},
+{c:"V",q:"What is 'continuous integration'?",o:["Frequently merging code changes into a shared repository, where they are automatically built and tested","Automatically deploying every change to production","Integrating suppliers into the organization","Monitoring systems continuously"],a:0,e:"Continuous integration catches integration problems early through frequent merges and automated builds and tests."},
+{c:"V",q:"What is the difference between continuous delivery and continuous deployment?",o:["There is no difference","With continuous delivery, changes are always ready to deploy but the release to production is a decision; with continuous deployment, every change that passes the pipeline is deployed to production automatically","Continuous delivery is manual coding; continuous deployment is automated testing","Continuous deployment requires a change advisory board for every change"],a:1,e:"Continuous delivery keeps software always deployable; continuous deployment goes one step further and deploys automatically."},
+{c:"V",q:"Identify the missing words in the following sentence.\n\nWith [ ? ], every change that passes automated tests is released to production without manual intervention.",o:["Continuous integration","Continuous delivery","Continuous deployment","Continual improvement"],a:2,e:"Continuous deployment is fully automated release to production."},
+{c:"V",q:"What is 'reliability'?",o:["The ability of a product, service or component to perform its required function as expected for a specified period","The speed of a network","The total cost of ownership","The number of users"],a:0,e:"Reliability is about working as expected over time without failure."},
+{c:"V",q:"What is Site Reliability Engineering (SRE)?",o:["A discipline that applies software engineering approaches to operations to build and run reliable, scalable systems","A method for designing office buildings","A supplier management framework","A project management method"],a:0,e:"SRE uses engineering, automation and measurement (e.g. service level objectives) to manage reliability."},
+{c:"V",q:"What is 'observability'?",o:["The ability to understand the internal state of a system from the data it produces, such as logs, metrics and traces","A physical inspection of hardware","A user satisfaction survey","A governance audit"],a:0,e:"Observability goes beyond basic monitoring by letting teams ask new questions about system behaviour."},
+{c:"V",q:"What is a 'service request'?",o:["A request from a user or authorized representative that initiates a service action agreed as a normal part of service delivery","An unplanned interruption","The cause of an incident","A change to the service portfolio"],a:0,e:"Examples: password reset, new laptop, access request, information request."},
+{c:"V",q:"What is a 'disaster'?",o:["A sudden unplanned event that causes great damage or serious loss to an organization","Any incident with high priority","A failed test","A missed SLA target"],a:0,e:"Disasters go beyond normal incidents and typically trigger continuity plans."},
+{c:"V",q:"What is an 'error'?",o:["A flaw or vulnerability that may cause incidents","A user request","A planned change","A deployment pipeline"],a:0,e:"An error is a flaw; a problem is the cause or potential cause of incidents; a known error is a problem that has been analysed but not resolved."},
+{c:"V",q:"What is a 'known error'?",o:["A problem that has been analysed but has not yet been resolved","An incident that has been closed","Any bug found in testing","An error reported by a user"],a:0,e:"A known error is a problem that has been analysed but not resolved. Workarounds are often documented for known errors."},
+{c:"V",q:"Which statement about problems, errors and known errors is CORRECT?\n\n1. A problem is a cause, or potential cause, of one or more incidents.\n2. A known error is a problem that has been analysed but not resolved.\n3. A known error is an incident that has been resolved.\n4. An error and an incident are the same thing.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"Problems are causes; known errors are analysed but unresolved problems. Incidents are the interruptions themselves."},
+{c:"V",q:"What is an 'operating model'?",o:["A conceptual and/or visual representation of how an organization co-creates value with its customers and other stakeholders, and how it runs itself","A software tool for operations","A financial budget","A list of IT staff"],a:0,e:"The operating model is supported by the value chain activities and management practices."},
+{c:"V",q:"How are an organization's purpose and operating model supported?",o:["By value chain activities and management practices","By the service desk alone","By external auditors","By the annual budget only"],a:0,e:"Value chain activities do the work of creating value; management practices provide the resources and capabilities to perform it."},
+{c:"V",q:"Into which groups are ITIL (Version 5) management practices organized?",o:["General management practices and product and service management practices","Strategic, tactical and operational practices","Technical, financial and legal practices","Core and enabling practices"],a:0,e:"Version 5 uses two groups: general management practices and product and service management practices."},
+{c:"V",q:"What is the role of management practices in the ITIL Value System?",o:["They provide the organizational resources and capabilities used to perform value chain activities","They replace the guiding principles","They define the organization's governance","They are only used in the build activity"],a:0,e:"Practices span all four dimensions and support value chain activities across the lifecycle."},
+{c:"V",q:"What is a key benefit of the ITIL Practice Guides?",o:["They prescribe a single mandatory process for every organization","They provide structured, reusable guidance that organizations can adapt to their own context","They replace the need for training","They are only relevant to large enterprises"],a:1,e:"Practice guides give consistent guidance that can be tailored to an organization's needs and maturity."},
+{c:"V",q:"What is a 'metric'?",o:["A measurement or calculation that is monitored or reported for management and improvement","A goal set by the board","A type of contract","A user complaint"],a:0,e:"Metrics are used to track performance and support decisions and improvement."},
+{c:"V",q:"What is a 'critical success factor' (CSF)?",o:["A necessary precondition for the achievement of intended results","A single technical metric","A risk register entry","A type of service request"],a:0,e:"CSFs are what must be true for success; metrics/KPIs show whether they are being achieved."},
+{c:"V",q:"In the continual improvement model, what happens in the step 'Where do we want to be?'",o:["Defining the vision","Defining measurable target states and objectives for the improvement","Executing the plan","Embedding the improvement"],a:1,e:"After the baseline ('Where are we now?'), the team defines the target state with measurable objectives."},
+{c:"V",q:"In the continual improvement model, what happens in the step 'Did we get there?'",o:["The improvement is planned","Results are measured and evaluated against the objectives","The vision is set","The baseline is assessed"],a:1,e:"Evaluation checks whether the objectives were achieved and whether value was realized."},
+{c:"V",q:"Which is the LAST step of the continual improvement model?",o:["Take action","Did we get there?","How do we keep the momentum going?","Where do we want to be?"],a:2,e:"The final step embeds the change and keeps improvement going, feeding the next cycle."},
+{c:"V",q:"Which statement about continual improvement in the ITIL Value System is CORRECT?",o:["It applies only to the value chain","It supports performance improvement across all components of the value system","It is performed only by a dedicated improvement team","It replaces governance"],a:1,e:"Continual improvement applies to the whole system — principles, governance, value chain and practices."},
+{c:"V",q:"Which statement about the ITIL Value System is CORRECT?\n\n1. Its components work together to enable value co-creation.\n2. It helps break down organizational silos.\n3. It applies only to the IT department.\n4. Its components must be implemented one at a time in a fixed order.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"The value system is a holistic model for the whole organization; integrated components reduce silos."},
+// ---------- VALUE STREAMS ----------
+{c:"S",q:"What is a 'core value stream'?",o:["A value stream that directly delivers value to the organization's external customers","A value stream that supports other value streams internally","A list of IT tools","A financial forecast"],a:0,e:"Core value streams create value for consumers. Enabling value streams support them."},
+{c:"S",q:"What is an 'enabling value stream'?",o:["A value stream that delivers value directly to external customers","A value stream that supports or enables core value streams, for example onboarding new employees","A marketing campaign","A supplier contract"],a:1,e:"Enabling value streams (e.g. hiring, onboarding, building platforms) make core value streams possible."},
+{c:"S",q:"A bank has a value stream for opening customer accounts and another for setting up laptops for new staff. Which statement is CORRECT?",o:["Both are core value streams","Account opening is a core value stream; laptop setup is an enabling value stream","Both are enabling value streams","Laptop setup is a core value stream"],a:1,e:"Account opening serves external customers directly; laptop setup enables staff to do that work."},
+{c:"S",q:"What is 'value stream mapping'?",o:["Creating a visual representation of the steps, flows, timings and handoffs in a value stream to understand how work moves","Assigning budgets to departments","Writing an SLA","Listing all servers"],a:0,e:"The map shows the current flow so that waste and delays become visible."},
+{c:"S",q:"What is 'value stream management'?",o:["A one-off workshop","The ongoing practice of measuring, managing and improving the flow of value through value streams","A purchasing process","A type of incident management"],a:1,e:"Mapping provides the picture; management uses it continually to optimize flow."},
+{c:"S",q:"What is the relationship between value stream mapping and value stream management?",o:["They are unrelated","Mapping creates a visual understanding of the flow; management uses that understanding to continually optimize it","Management must be completed before mapping can start","Mapping replaces management"],a:1,e:"Mapping is a key input to managing and improving value streams over time."},
+{c:"S",q:"Which are typical elements of a value stream map?\n\n1. Process steps\n2. Waiting times between steps\n3. The organization's mission statement\n4. Employees' salaries",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"Maps typically show steps, lead and process times, waiting times, handoffs and information flows."},
+{c:"S",q:"What is 'complexity thinking'?",o:["An approach that recognizes that in complex environments cause and effect are often only clear in hindsight, so organizations should experiment, learn and adapt","A method for making simple tasks complicated","A rule that every process must be fully documented in advance","A technique for estimating costs"],a:0,e:"Complexity thinking favours probing, feedback and adaptation over rigid pre-planning in uncertain situations."},
+{c:"S",q:"How should workflows be optimized for complexity?",o:["By fixing every step in detailed procedures that never change","By enabling experimentation, fast feedback and adaptation as conditions change","By removing all feedback loops","By centralizing every decision"],a:1,e:"In complex, uncertain environments, workflows should support learning and adjustment rather than rigid control."},
+// ---------- AI ----------
+{c:"A",q:"What is Artificial Intelligence (AI)?",o:["The capability of computer systems to perform tasks that normally require human intelligence, such as learning, reasoning and understanding language","Any software that stores data","A type of network hardware","A project management method"],a:0,e:"AI covers systems that learn, reason, perceive or generate — beyond simple rule-based automation."},
+{c:"A",q:"What is generative AI (GenAI)?",o:["AI that creates new content — such as text, images or code — based on patterns learned from data","AI that only sorts data into categories","Hardware used for AI","A governance framework"],a:0,e:"GenAI produces new content; agentic AI goes further by planning and taking actions."},
+{c:"A",q:"What does 'AI maturity' describe?",o:["The age of an AI model","The degree to which an organization is able to adopt, use and govern AI effectively","The number of AI tools bought","The speed of AI hardware"],a:1,e:"AI maturity reflects capability — strategy, skills, data, governance and integration of AI into work."},
+{c:"A",q:"What is 'AI governance'?",o:["The policies, processes, roles and controls that ensure AI is used responsibly, ethically, safely and in line with laws and organizational objectives","A tool that writes code","A type of AI model","An AI training course"],a:0,e:"AI governance provides accountability and oversight for how AI is selected, used and monitored."},
+{c:"A",q:"An AI agent detects a failing service, diagnoses the likely cause and restarts the component without human input. What type of AI is this?",o:["Generative AI","Agentic AI","Rule-based reporting","Manual automation"],a:1,e:"Agentic AI autonomously plans and takes actions to achieve goals — which is why governance and human oversight matter."},
+{c:"A",q:"Which is an example of how AI can support the product and service lifecycle?\n\n1. Generative AI helping developers write and test code during build.\n2. AI analysing event data to detect anomalies during operate.\n3. AI removing the need for any human oversight.\n4. AI replacing the need for governance.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"AI can assist and automate across the lifecycle, but human oversight and governance remain essential."},
+{c:"A",q:"Why is AI governance especially important as organizations adopt AI?",o:["Because AI decisions can affect users, compliance and trust, so accountability and oversight are needed","Because AI is always unreliable","Because AI cannot be used in IT","Because governance makes AI faster"],a:0,e:"AI introduces risks around bias, privacy, security and accountability that must be governed."},
+{c:"A",q:"What is the purpose of the ITIL AI Capability Model?",o:["To help organizations assess their readiness to use AI and identify where their AI capabilities need to improve","To rank AI vendors by price","To replace the guiding principles","To automatically make governance decisions"],a:0,e:"The model is an assessment tool: it shows how ready the organization is for AI and where to improve."},
+// ---------- OTHER FRAMEWORKS ----------
+{c:"F",q:"How can ITIL and DevOps be used together?",o:["ITIL provides the overall product and service management framework, while DevOps contributes practices and techniques for fast, automated delivery","They cannot be used together","DevOps replaces all ITIL practices","DevOps acts as a governance framework above ITIL"],a:0,e:"ITIL gives the framework; DevOps supplies practices and techniques. They are complementary across the lifecycle."},
+{c:"F",q:"Which statement about ITIL and DevOps is CORRECT?\n\n1. They share goals such as fast flow, feedback and continual improvement.\n2. ITIL controls, such as change approval, can be automated in a DevOps pipeline.\n3. ITIL always slows DevOps down.\n4. DevOps makes service relationships irrelevant.",o:["1 and 2","2 and 3","3 and 4","1 and 4"],a:0,e:"ITIL and DevOps align on value, flow and feedback; ITIL guidance can be applied in automated ways."},
+{c:"F",q:"Why is project management important in ITIL?",o:["Because many new or changed products and services are delivered through projects that need controlled planning and delivery","Because ITIL replaces project management","Because projects are only used for hardware","Because all operational work must be run as a project"],a:0,e:"Projects bring major changes into existence; ITIL then manages them across their lifecycle."},
+{c:"F",q:"How do ITIL and PRINCE2 complement each other?",o:["PRINCE2 provides structured management of the project that creates or changes a product; ITIL manages the product and service across its lifecycle, including after the project closes","PRINCE2 manages live operations; ITIL manages projects","They cover exactly the same scope","PRINCE2 replaces ITIL governance"],a:0,e:"A project is temporary; the product and service it creates must be managed long after the project ends."},
+{c:"F",q:"A project to implement a new CRM system has closed. Which approach manages the system's ongoing operation, delivery and support?",o:["PRINCE2 project board","ITIL product and service management","The original project plan","The software vendor's sales team"],a:1,e:"After handover, ongoing management happens through the product and service lifecycle activities."},
+{c:"F",q:"What is DevOps primarily focused on?",o:["A culture and set of practices that improve collaboration between development and operations and use automation to deliver changes quickly and reliably","A method for managing finance","A replacement for governance","A hardware procurement process"],a:0,e:"DevOps emphasizes collaboration, automation, flow and fast feedback."},
+{c:"F",q:"What is PRINCE2?",o:["A structured project management method","A service management framework for live operations","A programming language","An AI governance standard"],a:0,e:"PRINCE2 focuses on managing projects with defined stages, roles and controls."}
+);
+
+QUESTIONS.push(
+{c:"T",q:"How does ITIL (Version 5) describe a 'digital product'?",o:["A combination of an organization's resources, based on digital technology, designed to offer value to consumers","Any service delivered online","A formal description of services offered to a consumer group","An action performed by a provider for a consumer"],a:0,e:"Like any product, it is a configuration of resources, but here based on digital technology."},
+{c:"T",q:"Which statement about digital products and digital services is CORRECT?",o:["Digital services are based on digital products","Digital products are based on digital services","They exist completely independently","A digital service never involves technology"],a:0,e:"A digital service relies fully or largely on one or more digital products."},
+{c:"T",q:"What is the 'band of visibility' in a service relationship?",o:["The part of each organization — its people, activities and resources — that is visible to the other party in the relationship","Only the provider's internal processes","The full set of steps in a customer journey","A security zone in a network"],a:0,e:"Provider and consumer each see only part of the other organization. The band of visibility is where they interact."},
+{c:"T",q:"A provider offers a standardized cloud service to thousands of customers, with self-service support and no custom terms. Which type of service relationship is this MOST likely to be?",o:["Basic","Cooperative","Collaborative","Partnership"],a:0,e:"Basic relationships focus on efficiency and support through standardized offerings."},
+{c:"V",q:"What does an organization's 'purpose' describe?",o:["What the organization does for its consumers and other stakeholders, and why","How the organization runs its value chain","The organization's financial targets","The list of products in the service catalogue"],a:0,e:"The purpose explains why the organization exists; the operating model explains how it fulfils that purpose."},
+{c:"V",q:"Which statement BEST describes the relationship between an organization's purpose and its operating model?",o:["The purpose explains why the organization exists; the operating model shows how it fulfils that purpose","The operating model replaces the purpose once defined","They are unrelated","The purpose is a financial plan for the operating model"],a:0,e:"The operating model, supported by value chain activities and practices, puts the purpose into action."},
+{c:"V",q:"Who holds ultimate accountability for an organization's performance and compliance?",o:["The governing body","The service desk","The product owner","External suppliers"],a:0,e:"The governing body sits at the top of the organization and is accountable for its performance and compliance; it does not run day-to-day operations."},
+{c:"V",q:"A team improving a service ignores the existing tools and processes and starts from scratch. What is the MAIN risk?",o:["Wasting time and losing useful capabilities that already exist","Too much stakeholder collaboration","Getting too much feedback","Making the solution too simple"],a:0,e:"'Start where you are' warns that discarding what exists wastes effort and valuable resources."},
+{c:"V",q:"Why is feedback gathered throughout each iteration of an improvement?",o:["To keep improvement actions relevant and effective as circumstances change","To prove that all stakeholders agree","To avoid any further adjustments","To freeze priorities during implementation"],a:0,e:"Feedback lets the team adjust course — not to reach full agreement or lock the plan."},
+{c:"V",q:"A team designs a new process that tries to handle every possible exception. What is the MOST likely result?",o:["Unnecessary complexity","Stronger risk control with no downside","Faster delivery","Perfect compliance"],a:0,e:"'Keep it simple and practical' warns that covering every exception overcomplicates processes."},
+{c:"V",q:"A manager wants to know which roles, skills and responsibilities her team needs to run a practice. Where in an ITIL Practice Guide should she look?",o:["The organizations and people section","The partners and suppliers section","The general information section","The value streams section"],a:0,e:"Practice guides are structured around the four dimensions, so roles and competencies sit under organizations and people."},
+{c:"V",q:"Before starting an improvement initiative, a company checks that it supports the organization's strategic goals. Which continual improvement step is this?",o:["What is the vision?","Where are we now?","Take action","Did we get there?"],a:0,e:"The first step links the initiative to the organization's vision, goals and objectives."},
+{c:"V",q:"Which ITIL concept brings together the guiding principles, governance, value chain, management practices and continual improvement?",o:["The ITIL Value System","The four dimensions","The 'deliver' activity","A value stream map"],a:0,e:"These are the five components of the ITIL Value System."},
+{c:"L",q:"Which metric is MOST relevant to the 'discover' activity?",o:["How well product offerings fit the organization's strategy and the market","Percentage of SLA targets met","Number of incidents resolved","Deployment success rate"],a:0,e:"Discover is measured by strategic fit, market relevance and stakeholder satisfaction with offerings. SLA performance relates to deliver."},
+{c:"L",q:"Which metric is MOST relevant to the 'acquire' activity?",o:["Quality of the resources and services obtained from suppliers","Number of user interviews","Mean time to restore service","Number of prototypes"],a:0,e:"Acquire is about securing resources efficiently, so the quality of what is sourced is a key metric."},
+{c:"L",q:"Which metric is NOT typically used to measure the 'discover' activity?",o:["Strategic fit of offerings","Market relevance of offerings","Service performance against agreed SLA targets","Stakeholder satisfaction with offerings"],a:2,e:"SLA performance measures services in use (deliver). Discover is measured by fit, relevance and stakeholder satisfaction."},
+{c:"L",q:"What is the PRIMARY purpose of the 'acquire' activity?",o:["To secure and allocate the resources the organization needs efficiently","To resolve incidents","To onboard users","To create prototypes"],a:0,e:"Acquire secures resources, whether built, bought or obtained from partners, and allocates them efficiently."},
+{c:"L",q:"What is the MAIN purpose of the 'discover' activity?",o:["To align product capabilities with consumer needs and the organization's strategy","To test digital products","To monitor live services","To negotiate contracts"],a:0,e:"Discover makes sure the organization builds the right things for its consumers and strategy."},
+{c:"S",q:"Which is NOT a step in value stream mapping?",o:["Identifying the value stream","Mapping the current ('as-is') value stream","Mapping the future ('to-be') value stream","Value stream management"],a:3,e:"Mapping covers identification, as-is and to-be maps. Value stream management is the ongoing activity that uses the maps."},
+{c:"S",q:"What is the MAIN purpose of value stream mapping?",o:["To identify and prioritize opportunities for improvement","To automate monitoring","To control external stakeholders","To replace management practices"],a:0,e:"Making the flow visible reveals waste, delays and the improvements that matter most."}
+);
+const CATS={T:{n:"Key terms and definitions",w:12},D:{n:"Four dimensions",w:4},L:{n:"Product and service lifecycle",w:4},V:{n:"ITIL Value System",w:16},S:{n:"Value streams",w:2},A:{n:"ITIL and AI",w:1},F:{n:"ITIL and other frameworks",w:1}};
+const PCT={T:"30%",D:"10%",L:"10%",V:"40%",S:"5%",A:"2.5%",F:"2.5%"};
+const L="ABCD";
+const $=id=>document.getElementById(id);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let S=null,tick=null;
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function show(id){["home","quiz","results"].forEach(s=>$(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0)}
+
+// theme
+(function(){const ins=store.get("itil5-instant");$("instant").checked=ins===null?true:ins==="1";
+$("instant").onchange=()=>store.set("itil5-instant",$("instant").checked?"1":"0")})();
+(function(){const t=store.get("itil5-theme");if(t)document.documentElement.dataset.theme=t;
+$("themeBtn").onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=nx;store.set("itil5-theme",nx)}})();
+
+// home
+$("bankSize").textContent=QUESTIONS.length;
+$("pCat").innerHTML='<option value="all">All categories</option>'+Object.entries(CATS).map(([k,c])=>`<option value="${k}">${c.n} (${QUESTIONS.filter(q=>q.c===k).length})</option>`).join("");
+
+$("weightRows").innerHTML=Object.entries(CATS).map(([k,c])=>`<tr><td>${c.n}</td><td>${PCT[k]} · ${c.w} ${c.w===1?"mark":"marks"}</td></tr>`).join("");
+function renderBest(){const b=store.get("itil5-best");$("best").textContent=b?`Your best mock exam score in this browser: ${b}/40`:""}
+renderBest();
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>start(b.dataset.mode));
+
+function start(mode){
+  if(mode==="key"){return showKey()}
+  let idx;
+  if(mode==="exam"){
+    let seen=[];try{seen=JSON.parse(store.get("itil5-seen")||"[]")}catch(e){}
+    const seenSet=new Set(seen);idx=[];
+    Object.entries(CATS).forEach(([k,c])=>{const pool=QUESTIONS.map((q,i)=>i).filter(i=>QUESTIONS[i].c===k);
+      let fresh=shuffle(pool.filter(i=>!seenSet.has(i)));
+      if(fresh.length<c.w){pool.forEach(i=>seenSet.delete(i));fresh=fresh.concat(shuffle(pool.filter(i=>!fresh.includes(i))))}
+      idx.push(...fresh.slice(0,c.w))});
+    idx.forEach(i=>seenSet.add(i));store.set("itil5-seen",JSON.stringify([...seenSet]));
+    idx=shuffle(idx);
+  } else {
+    const cat=$("pCat").value,n=$("pCount").value;
+    idx=shuffle(QUESTIONS.map((q,i)=>i).filter(i=>cat==="all"||QUESTIONS[i].c===cat));
+    if(n!=="all")idx=idx.slice(0,+n);
+  }
+  S={mode,items:idx.map(qi=>({qi,ord:shuffle([0,1,2,3])})),ans:Array(idx.length).fill(null),flag:Array(idx.length).fill(false),cur:0,
+     instant:mode==="practice"||$("instant").checked,end:mode==="exam"?Date.now()+($("extraTime").checked?75:60)*60000:null,done:false};
+  $("quizTitle").textContent=mode==="exam"?"Mock exam":"Practice";
+  $("submitBtn").textContent=mode==="exam"?"Submit exam":"Finish and see results";
+  $("legend").innerHTML=!S.instant
+    ?'<span><i style="background:var(--ink);border-color:var(--ink)"></i>Answered</span><span><i style="background:var(--flag);border-color:var(--flag)"></i>Flagged</span>'
+    :'<span><i style="background:var(--ok);border-color:var(--ok)"></i>Correct</span><span><i style="background:var(--bad);border-color:var(--bad)"></i>Wrong</span>';
+  $("flagBtn").classList.toggle("hidden",mode!=="exam");
+  $("timer").classList.toggle("hidden",mode!=="exam");
+  buildGrid();render();show("quiz");
+  clearInterval(tick);if(mode==="exam"){updTimer();tick=setInterval(updTimer,1000)}
+}
+
+function updTimer(){
+  const ms=Math.max(0,S.end-Date.now());const m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);
+  $("timer").textContent=`${m}:${String(s).padStart(2,"0")} left`;
+  $("timer").classList.toggle("low",ms<5*60000);
+  if(ms<=0){clearInterval(tick);finish(true)}
+}
+
+function buildGrid(){
+  $("grid").innerHTML=S.items.map((_,i)=>`<button class="cell" type="button" data-i="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join("");
+  $("grid").querySelectorAll(".cell").forEach(c=>c.onclick=()=>{S.cur=+c.dataset.i;render()});
+}
+function paintGrid(){
+  $("grid").querySelectorAll(".cell").forEach((c,i)=>{
+    const a=S.ans[i],it=S.items[i];c.className="cell";
+    if(S.flag[i])c.classList.add("flag");
+    if(!S.instant){if(a!==null)c.classList.add("done")}
+    else if(a!==null)c.classList.add(it.ord[a]===QUESTIONS[it.qi].a?"right":"wrong");
+    if(i===S.cur)c.classList.add("cur");
+  });
+}
+
+function render(){
+  const i=S.cur,it=S.items[i],q=QUESTIONS[it.qi],a=S.ans[i];
+  $("qNum").textContent=`Question ${i+1} of ${S.items.length}`;
+  $("qCat").textContent=CATS[q.c].n;
+  $("qText").textContent=q.q;
+  const reveal=S.instant&&a!==null;
+  $("choices").innerHTML=it.ord.map((oi,d)=>{
+    let cls="choice";
+    if(reveal){if(oi===q.a)cls+=" right";else if(d===a)cls+=" wrong"}
+    else if(d===a)cls+=" sel";
+    return `<button class="${cls}" type="button" role="radio" aria-checked="${d===a}" data-d="${d}" ${reveal?"disabled":""}><span class="letter">${L[d]}</span><span>${esc(q.o[oi])}</span></button>`}).join("");
+  $("choices").querySelectorAll(".choice").forEach(b=>b.onclick=()=>pick(+b.dataset.d));
+  const fb=$("feedback");
+  if(reveal){const ok=it.ord[a]===q.a;fb.className="feedback"+(ok?"":" no");
+    fb.innerHTML=`<strong>${ok?"Correct.":"Not quite."}</strong> ${ok?"":`The answer is ${L[it.ord.indexOf(q.a)]}: ${esc(q.o[q.a])}.`}<p>${esc(q.e)}</p>`}
+  else fb.className="feedback hidden";
+  $("prevBtn").disabled=i===0;
+  $("nextBtn").textContent=i===S.items.length-1?(S.mode==="exam"?"Review and submit":"Finish"):"Next";
+  $("flagBtn").setAttribute("aria-pressed",S.flag[i]);
+  $("flagBtn").textContent=S.flag[i]?"Flagged":"Flag for review";
+  paintGrid();
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function pick(d){if(S.instant&&S.ans[S.cur]!==null)return;S.ans[S.cur]=d;render()}
+
+$("prevBtn").onclick=()=>{if(S.cur>0){S.cur--;render()}};
+$("nextBtn").onclick=()=>{if(S.cur<S.items.length-1){S.cur++;render();$("qText").scrollIntoView({block:"nearest"})}else confirmFinish()};
+$("flagBtn").onclick=()=>{S.flag[S.cur]=!S.flag[S.cur];render()};
+$("submitBtn").onclick=confirmFinish;
+$("quitBtn").onclick=()=>ask("Exit this attempt? Your answers will be lost.","Exit",()=>{clearInterval(tick);show("home")});
+function confirmFinish(){
+  const un=S.ans.filter(a=>a===null).length,fl=S.flag.filter(Boolean).length;
+  let msg=S.mode==="exam"?"Submit your exam?":"Finish and see your results?";
+  if(un)msg+=` ${un} question${un>1?"s are":" is"} unanswered.`;
+  if(S.mode==="exam"&&fl)msg+=` ${fl} question${fl>1?"s are":" is"} flagged.`;
+  ask(msg,S.mode==="exam"?"Submit exam":"See results",()=>finish(false));
+}
+document.addEventListener("keydown",e=>{
+  if($("quiz").classList.contains("hidden")||!$("modal").classList.contains("hidden")||e.metaKey||e.ctrlKey||e.altKey)return;
+  const k=e.key.toLowerCase();const m={a:0,b:1,c:2,d:3,"1":0,"2":1,"3":2,"4":3}[k];
+  if(m!==undefined&&!(e.target.tagName==="INPUT")){pick(m)}
+  else if(e.key==="ArrowRight"){$("nextBtn").click()}else if(e.key==="ArrowLeft"){$("prevBtn").click()}
+});
+
+function finish(timeout){
+  clearInterval(tick);S.done=true;
+  const n=S.items.length;let score=0;const by={};
+  S.items.forEach((it,i)=>{const q=QUESTIONS[it.qi];by[q.c]=by[q.c]||{t:0,ok:0};by[q.c].t++;
+    if(S.ans[i]!==null&&it.ord[S.ans[i]]===q.a){score++;by[q.c].ok++}});
+  const pass=score/n>=0.65;
+  $("resTitle").textContent=S.mode==="exam"?"Mock exam results":"Practice results";
+  $("resScore").textContent=`${score}/${n}`;
+  $("resVerdict").textContent=pass?"Pass":"Not yet a pass";
+  $("resVerdict").className="verdict "+(pass?"pass":"fail");
+  const need=Math.ceil(n*0.65);
+  $("resSub").textContent=(timeout?"Time ran out. ":"")+`${Math.round(score/n*100)}% — the pass mark is 65% (${need}/${n}). Aim for about 80% in practice before booking the real exam.`;
+  $("bars").innerHTML=Object.keys(CATS).filter(k=>by[k]).map(k=>{const b=by[k];const p=b.ok/b.t*100;
+    return `<div class="bar"><span>${CATS[k].n}</span><div class="track"><div class="fill" style="width:${p}%;background:${p>=65?"var(--ok)":"var(--bad)"}"></div></div><span>${b.ok}/${b.t}</span></div>`}).join("");
+  $("retryBtn").textContent=S.mode==="exam"?"Try another mock exam":"Practice again";
+  $("retryBtn").onclick=()=>start(S.mode);
+  if(S.mode==="exam"){const b=+(store.get("itil5-best")||0);if(score>b)store.set("itil5-best",score);renderBest()}
+  $("reviewHead").textContent="Review your answers";
+  buildReview("all");show("results");
+}
+
+function buildReview(f){
+  $("filter").classList.remove("hidden");$("bars").classList.remove("hidden");$("retryBtn").parentElement.classList.remove("hidden");
+  const opts=[["all","All questions"],["wrong","Only wrong or unanswered"]];
+  $("filter").innerHTML=opts.map(([k,t])=>`<button class="btn ghost" type="button" data-f="${k}" aria-pressed="${k===f}">${t}</button>`).join("");
+  $("filter").querySelectorAll("button").forEach(b=>b.onclick=()=>buildReview(b.dataset.f));
+  const rows=S.items.map((it,i)=>{const q=QUESTIONS[it.qi],a=S.ans[i];const ok=a!==null&&it.ord[a]===q.a;
+    if(f==="wrong"&&ok)return"";
+    const yours=a===null?'<span class="bad-t">Not answered</span>':`<span class="${ok?"ok-t":"bad-t"}">${esc(q.o[it.ord[a]])}</span>`;
+    return `<article class="ritem${ok?"":" no"}"><h4>${i+1}. ${esc(q.q)}</h4>
+      <p><span class="lbl">Your answer:</span> ${yours}</p>
+      ${ok?"":`<p><span class="lbl">Correct answer:</span> <span class="ok-t">${esc(q.o[q.a])}</span></p>`}
+      <p>${esc(q.e)}</p></article>`}).join("");
+  $("review").innerHTML=rows||'<p>No wrong answers to review. Switch to "All questions" to read every explanation.</p>';
+}
+
+function showKey(){
+  $("resTitle").textContent="Answer key";$("resScore").textContent="";$("resVerdict").textContent="";
+  $("resSub").textContent=`All ${QUESTIONS.length} questions with the correct answer and explanation, grouped by syllabus category.`;
+  $("bars").classList.add("hidden");$("retryBtn").parentElement.classList.add("hidden");$("filter").classList.add("hidden");
+  $("reviewHead").textContent="";
+  let n=0;
+  $("review").innerHTML=Object.entries(CATS).map(([k,c])=>{
+    const qs=QUESTIONS.filter(q=>q.c===k);
+    return `<h3 style="margin-top:1.5rem;font-size:1.25rem">${c.n} <span style="color:var(--muted);font-weight:500;font-size:1rem">(${PCT[k]})</span></h3>`+
+      qs.map(q=>{n++;return `<article class="ritem"><h4>${n}. ${esc(q.q)}</h4>
+        ${q.o.map((o,i)=>`<p class="${i===q.a?"ok-t":""}">${L[i]}. ${esc(o)}${i===q.a?" ✓":""}</p>`).join("")}
+        <p class="lbl" style="margin-top:.6rem">${esc(q.e)}</p></article>`}).join("")}).join("");
+  show("results");
+}
+$("homeBtn").onclick=()=>show("home");
+
+function ask(msg,okText,onOk){
+  const m=$("modal");$("modalMsg").textContent=msg;$("modalOk").textContent=okText;m.classList.remove("hidden");
+  const close=()=>{m.classList.add("hidden");$("modalOk").onclick=$("modalCancel").onclick=null};
+  $("modalOk").onclick=()=>{close();onOk()};$("modalCancel").onclick=close;$("modalOk").focus();
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("modal").classList.contains("hidden"))$("modalCancel").click()});
+</script></body></html>
